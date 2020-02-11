@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "565146973715",
+    "firebase_url": "https://patientpal-649d0.firebaseio.com",
+    "project_id": "patientpal-649d0",
+    "storage_bucket": "patientpal-649d0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:565146973715:android:bc4e0420e5f38d09e031e6",
+        "android_client_info": {
+          "package_name": "com.example.patientpal"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "565146973715-s3gtuahukk4imoeopllnj85n63dou7r5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.patientpal",
+            "certificate_hash": "be61af8e74532a883408ff03682a12ca1770aacd"
+          }
+        },
+        {
+          "client_id": "565146973715-k9sgjuq8a7t5rmi46lh7k34aaidbkm92.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD_4SfVdTYjKKVriM2MV9UcUwRX7fOjq3I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "565146973715-k9sgjuq8a7t5rmi46lh7k34aaidbkm92.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

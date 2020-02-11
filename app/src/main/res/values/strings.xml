@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">PatientPal</string>
+    <string name="title_activity_pharmacieson_map">Map</string>
+    <string name="title_activity_main_reminder">MainReminderActivity</string>
+</resources>
