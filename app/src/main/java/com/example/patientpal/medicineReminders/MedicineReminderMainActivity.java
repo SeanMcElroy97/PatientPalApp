@@ -12,6 +12,8 @@ import android.widget.Toast;
 import com.example.patientpal.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import maes.tech.intentanim.CustomIntent;
+
 public class MedicineReminderMainActivity extends AppCompatActivity {
 
 
@@ -29,5 +31,10 @@ public class MedicineReminderMainActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+    }
+
+    public void finish(){
+        super.finish();
+        CustomIntent.customType(this, "right-to-left");
     }
 }

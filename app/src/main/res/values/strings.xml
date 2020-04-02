@@ -2,4 +2,12 @@
     <string name="app_name">PatientPal</string>
     <string name="title_activity_pharmacieson_map">Map</string>
     <string name="title_activity_main_reminder">MainReminderActivity</string>
+    <string name="spring_url_home_wifi">"http://192.168.0.185:8080/"</string>
+    <string name="spring_url_phone_home_hotspot">"http://192.168.43.110:8080/"</string>
+    <string name="spring_url_laptop_home_hotspot">"http://192.168.137.1:8080/"</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="spring_boot_url">@string/spring_url_home_wifi</string>
+
 </resources>

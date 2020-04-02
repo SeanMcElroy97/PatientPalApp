@@ -1,6 +1,5 @@
 package com.example.patientpal.timePicker;
 
-import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
@@ -33,7 +32,7 @@ public class NotificationHelper extends ContextWrapper {
         NotificationChannel channel1 = new NotificationChannel(channelID, channelName, NotificationManager.IMPORTANCE_DEFAULT);
         channel1.enableLights(true);
         channel1.enableVibration(true);
-        channel1.setLightColor(R.color.colorPrimaryDark);
+        channel1.setLightColor(R.color.DarkGreen);
 
         getNotificationManager().createNotificationChannel(channel1);
     }

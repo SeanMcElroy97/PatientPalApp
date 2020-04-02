@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView  xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:fillViewport="true">
+
+<RelativeLayout
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/newPrescriptionText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="-3dp"
+        android:layout_marginTop="16dp"
+        android:gravity="center_horizontal"
+        android:text="New Prescription"
+        android:textColor="@color/ButtonGreen"
+        android:textSize="35sp"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/newPrescriptionText"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="25dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="Pharmacy"
+            android:textColor="@color/quantum_black_text"/>
+
+
+
+        <AutoCompleteTextView
+            android:id="@+id/autoCompletePharmacy"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:completionThreshold="1"
+            android:hint="Select a Pharmacy"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"/>
+
+        <TextView
+            android:layout_marginTop="35dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:textColor="@color/quantum_black_text"
+            android:text="Picture of Prescription" />
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/prescription_photo_area"
+        android:layout_width="320dp"
+        android:layout_height="350dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="260dp"/>
+
+
+    <ImageButton
+        android:id="@+id/retryBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/prescription_photo_area"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="150dp"
+        android:background="@color/transparent"
+        android:foregroundGravity="center_horizontal"
+        app:srcCompat="@drawable/retry_btn" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="260dp">
+        <ImageButton
+            android:id="@+id/ImageButtonTakePhoto"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:background="@color/transparent"
+            app:srcCompat="@drawable/new_photo_button"
+            android:layout_marginEnd="5dp"/>
+        <ImageButton
+            android:id="@+id/ImageButtonChooseFromGallery"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:background="@color/transparent"
+            app:srcCompat="@drawable/gallery_button"
+            android:layout_marginStart="5dp"/>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/retryBtn"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginEnd="5dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:text="Message to Pharmacy"
+            android:textColor="@color/quantum_black_text" />
+
+        <EditText
+            android:id="@+id/editText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/text_area_background"
+            android:ems="10"
+            android:gravity="top"
+            android:hint="instructions text area"
+            android:inputType="text|textMultiLine"
+            android:lines="4"
+            android:maxLines="4"
+            android:padding="5dp" />
+
+
+    </LinearLayout>
+
+
+</RelativeLayout>
+
+</ScrollView>

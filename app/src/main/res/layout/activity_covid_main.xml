@@ -4,25 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".patientActivities.PatientHome"
+    tools:context=".patientActivities.covidActivities.CovidMainActivity"
     android:background="@color/lightGrey">
 
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewPatientHome"
-        android:layout_width="match_parent"
-        android:layout_height="669dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="116dp"
-        android:layout_marginEnd="0dp"
-        android:background="@color/white" />
-
-
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/covidPPalLogo"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_alignParentStart="true"
@@ -32,6 +18,7 @@
         android:background="@color/transparent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintTop_toTopOf="parent"
+        android:onClick="finish"
         app:srcCompat="@drawable/patient_pal_logo" />
 
     <TextView
@@ -41,14 +28,36 @@
         android:layout_alignParentTop="true"
         android:layout_marginStart="29dp"
         android:layout_marginTop="27dp"
-        android:layout_toEndOf="@+id/imageView"
+        android:layout_toEndOf="@+id/covidPPalLogo"
         android:background="#00FFFFFF"
         android:fontFamily="@font/average"
-        android:text="Home"
+        android:text="COVID-19"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:textColor="#7FD858"
         android:textSize="36sp"
         android:textStyle="bold" />
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="669dp"
+        android:layout_marginTop="116dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/updateTimeText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:textSize="10sp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="100dp"
+        android:text="Updated 2:00 am GMT"
+        android:background="@color/transparent"/>
+
 
 
 </RelativeLayout>

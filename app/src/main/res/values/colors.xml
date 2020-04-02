@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#000000</color>
-    <color name="colorPrimaryDark">#429321</color>
+    <color name="DarkGreen">#429321</color>
+    <color name="ButtonGreen">#4BB752</color>
     <color name="colorAccent">#7FD858</color>
     <color name="white">#ffffff</color>
     <color name="transparent">#00FFFFFF</color>
+    <color name="darkblue">#2F333F</color>
+    <color name="coolGreen">#ABFFC0</color>
     <color name="lightGrey">#f2f2f2</color>
     <color name="pink">#ff6eec</color>
-    <color name="red">	#FF0000</color>
+    <color name="red">#FF0000</color>
+    <color name="success_green">#22bb33</color>
+    <color name="blue">#5bc0de</color>
 </resources>

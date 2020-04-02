@@ -14,15 +14,29 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.patientpal.MainActivity;
 import com.example.patientpal.R;
 import com.example.patientpal.adapters.PatientHomeAdapter;
 import com.example.patientpal.map.PharmaciesOnMapActivity;
 import com.example.patientpal.medicineReminders.MedicineReminderMainActivity;
+import com.example.patientpal.model.LocationCovidStats;
 import com.example.patientpal.model.PatientMenuItem;
+import com.example.patientpal.patientActivities.covidActivities.CovidMainActivity;
+import com.example.patientpal.prescription.PrescriptionHomeActivity;
+import com.example.patientpal.services.VolleySingletonRequestQueue;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -34,9 +48,11 @@ public class PatientHome extends AppCompatActivity {
 
     FirebaseAuth mAuth;
     FirebaseFirestore db;
-
+    ArrayList<LocationCovidStats> globalCovidStats;
 
     ArrayList<PatientMenuItem> menuItems;
+
+    RequestQueue mRequestQueue;
 
 
     private RecyclerView mRecyclerView;
@@ -56,12 +72,13 @@ public class PatientHome extends AppCompatActivity {
 
         //menu options
         menuItems = new ArrayList<>();
-        menuItems.add(new PatientMenuItem(R.drawable.prescription, "Prescriptions", "manage your prescriptions" ));
+        menuItems.add(new PatientMenuItem(R.drawable.prescription, "Prescriptions", "Manage your prescriptions" ));
         menuItems.add(new PatientMenuItem(R.drawable.reminder_icon_green, "Reminders", "Set medication Reminders" ));
         menuItems.add(new PatientMenuItem(R.drawable.health, "Appointments", "Schedule Appointments" ));
         menuItems.add(new PatientMenuItem(R.drawable.cross_location, "Nearby Pharmacies", "Show close by pharmacies" ));
-        menuItems.add(new PatientMenuItem(R.drawable.about_icon, "About", "more information about Patient Pal" ));
-        menuItems.add(new PatientMenuItem(R.drawable.logout, "Sign Out", "sign out of patientpal" ));
+        menuItems.add(new PatientMenuItem(R.drawable.virus_logo, "COVID-19", "Latest stats and information"));
+        menuItems.add(new PatientMenuItem(R.drawable.about_icon, "About", "More information about Patient Pal" ));
+        menuItems.add(new PatientMenuItem(R.drawable.logout, "Sign Out", "Sign out of patientpal" ));
 
 
 
@@ -81,6 +98,15 @@ public class PatientHome extends AppCompatActivity {
 
 
 
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        Intent a = new Intent(Intent.ACTION_MAIN);
+        a.addCategory(Intent.CATEGORY_HOME);
+        a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(a);
     }
 
     public void viewNearbyPharmaciesonMap(View view){
@@ -127,6 +153,12 @@ public class PatientHome extends AppCompatActivity {
         CustomIntent.customType(this, "left-to-right");
     }
 
+    public void goToPrescriptionActivity(View v){
+        Intent intentToPrescription = new Intent(this, PrescriptionHomeActivity.class);
+        startActivity(intentToPrescription);
+        CustomIntent.customType(this, "left-to-right");
+    }
+
     public void viewRegisteredPharmacies(View v){
         Intent goToRegisteredPharmacies;
     }
@@ -137,5 +169,55 @@ public class PatientHome extends AppCompatActivity {
         Intent logOutIntent = new Intent(this, MainActivity.class);
         startActivity(logOutIntent);
         CustomIntent.customType(this, "fadein-to-fadeout");
+    }
+
+
+    public void CoronaCheck(){
+        mRequestQueue = VolleySingletonRequestQueue.getInstance(this).getRequestQueue();
+        globalCovidStats = new ArrayList<>();
+        final JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, getString(R.string.spring_boot_url)+"covid19/all", null, new Response.Listener<JSONArray>() {
+
+
+            @Override
+            public void onResponse(JSONArray response) {
+
+                try {
+                for(int i=0; i<response.length();i++) {
+
+                        JSONObject locationCOV = response.getJSONObject(i);
+
+                    LocationCovidStats locationStats = new LocationCovidStats();
+                    locationStats.setProvince(locationCOV.getString("province"));
+                    locationStats.setCountry(locationCOV.getString("country"));
+                    locationStats.setLatestTotalCases(Integer.parseInt(locationCOV.getString("latestTotalCases")));
+                    locationStats.setLatestTotalDeaths(Integer.parseInt(locationCOV.getString("latestTotalDeaths")));
+                    locationStats.setLatestTotalRecoveries(Integer.parseInt(locationCOV.getString("latestTotalRecoveries")));
+                    locationStats.setTotalCases7DaysAgo(Integer.parseInt(locationCOV.getString("totalCases7DaysAgo")));
+
+                    globalCovidStats.add(locationStats);
+                    System.out.println("Did this work? \n" + locationStats.toString());
+
+                }
+                //Still in try
+                    //System.out.println(globalCovidStats);
+
+                    Intent coronaActivityIntent = new Intent(PatientHome.this, CovidMainActivity.class);
+                    coronaActivityIntent.putParcelableArrayListExtra("globalCovidArray", globalCovidStats);
+                    startActivity(coronaActivityIntent);
+                    CustomIntent.customType(PatientHome.this, "left-to-right");
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                System.out.println(error.toString());
+            }
+        });
+
+        mRequestQueue.add(jsonArrayRequest);
+
     }
 }

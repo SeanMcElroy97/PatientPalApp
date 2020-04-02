@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="15dp"
+    android:layout_marginLeft="5dp"
+    android:layout_marginTop="15dp"
+    android:id="@+id/country_item">
+
+
+    <ImageView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="10dp"
+        android:layout_gravity="center_vertical"
+        android:src="@drawable/circle_green"
+        android:id="@+id/status_circle_icon"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:orientation="vertical"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="20dp">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="PID"
+            android:textColor="#000"
+            android:textStyle="bold"
+            android:layout_margin="5dp"
+            android:textSize="25sp"
+            android:id="@+id/prescription_row_text"
+            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Prescription Status"
+                android:textColor="#a9a9a9"
+                android:textStyle="bold"
+                android:textSize="10sp"
+                android:id="@+id/status_text"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="StatusX"
+                android:textColor="@color/red"
+                android:textStyle="bold"
+                android:textSize="10sp"
+                android:id="@+id/status_val"
+                />
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

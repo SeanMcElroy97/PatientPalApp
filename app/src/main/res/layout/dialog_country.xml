@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="350dp"
+    android:layout_height="465dp"
+    android:background="@color/darkblue"
+    android:padding="5dp"
+    android:layout_gravity="center">
+
+    <TextView
+        android:id="@+id/dialog_close_x"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:textColor="@color/white"
+        android:text="X"
+        android:textStyle="bold"
+        android:layout_gravity="end"
+        android:gravity="center"
+        android:background="@drawable/circlebackground"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/transparent">
+        <ImageView
+            android:id="@+id/dialog_country_flag"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:src="@drawable/about_icon"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:background="@color/transparent"/>
+        <TextView
+            android:id="@+id/dialog_country_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Country Name"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:layout_gravity="center_horizontal"
+            android:textSize="40sp"
+            android:layout_marginTop="20dp"
+            android:background="@color/transparent"/>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginTop="120dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:background="@color/red"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="110dp">
+
+            <TextView
+                android:id="@+id/dialog_country_confirmed_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="150"
+                android:textSize="20sp"
+                android:textColor="@color/white"
+                android:background="@color/transparent"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Confirmed"
+                android:textSize="18sp"
+                android:textColor="@color/white"
+                android:background="@color/transparent"/>
+        </LinearLayout>
+        <LinearLayout
+            android:background="@color/quantum_grey"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="110dp">
+
+            <TextView
+                android:id="@+id/dialog_country_deaths_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="19"
+                android:textSize="20sp"
+                android:textColor="@color/white"
+                android:background="@color/transparent"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Deaths"
+                android:textSize="18sp"
+                android:textColor="@color/white"
+                android:background="@color/transparent"/>
+        </LinearLayout>
+        <LinearLayout
+            android:background="@color/DarkGreen"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="110dp">
+
+            <TextView
+                android:id="@+id/dialog_country_recovered_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="50"
+                android:textSize="20sp"
+                android:textColor="@color/white"
+                android:background="@color/transparent"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Recovered"
+                android:textSize="18sp"
+                android:textColor="@color/white"
+                android:background="@color/transparent"/>
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>
