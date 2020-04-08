@@ -63,24 +63,26 @@ public class PatientLogInActivity extends AppCompatActivity {
         if(!validateEmail(email) || !validatePassword(password)){
             return;
         }
-        progressBar.setVisibility(View.VISIBLE);
+        Intent intentToHome = new Intent(PatientLogInActivity.this, PatientHome.class);
+        startActivity(intentToHome);
+//        progressBar.setVisibility(View.VISIBLE);
         //Called onComplete listener when task is complete
-        fbauthObj.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                progressBar.setVisibility(View.INVISIBLE);
-
-                if(task.isSuccessful()){
-                    //System.out.println(fbauthObj.getCurrentUser().getEmail());
-                    Intent intentToHome = new Intent(PatientLogInActivity.this, PatientHome.class);
-                    //intentToHome.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(intentToHome);
-                }else{
-                    Toast.makeText(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_LONG).show();
-                }
-            }
-        });
+//        fbauthObj.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+//
+//            @Override
+//            public void onComplete(@NonNull Task<AuthResult> task) {
+//                progressBar.setVisibility(View.INVISIBLE);
+//
+//                if(task.isSuccessful()){
+//                    //System.out.println(fbauthObj.getCurrentUser().getEmail());
+//                    Intent intentToHome = new Intent(PatientLogInActivity.this, PatientHome.class);
+//                    //intentToHome.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                    startActivity(intentToHome);
+//                }else{
+//                    Toast.makeText(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_LONG).show();
+//                }
+//            }
+//        });
     }
 
 

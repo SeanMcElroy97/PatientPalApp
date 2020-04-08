@@ -19,10 +19,10 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.Volley;
 import com.example.patientpal.MainActivity;
 import com.example.patientpal.R;
 import com.example.patientpal.adapters.PatientHomeAdapter;
+import com.example.patientpal.appointments.AppointmentsMainActivity;
 import com.example.patientpal.map.PharmaciesOnMapActivity;
 import com.example.patientpal.medicineReminders.MedicineReminderMainActivity;
 import com.example.patientpal.model.LocationCovidStats;
@@ -46,8 +46,8 @@ public class PatientHome extends AppCompatActivity {
 
     private int LOCATION_PERMISSION_CODE = 1;
 
-    FirebaseAuth mAuth;
-    FirebaseFirestore db;
+    //FirebaseAuth mAuth;
+
     ArrayList<LocationCovidStats> globalCovidStats;
 
     ArrayList<PatientMenuItem> menuItems;
@@ -64,17 +64,16 @@ public class PatientHome extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_patient_home);
-        mAuth=FirebaseAuth.getInstance();
+        //mAuth=FirebaseAuth.getInstance();
 
-        FirebaseUser user = mAuth.getCurrentUser();
+        //FirebaseUser user = mAuth.getCurrentUser();
 
-        db = FirebaseFirestore.getInstance();
 
         //menu options
         menuItems = new ArrayList<>();
         menuItems.add(new PatientMenuItem(R.drawable.prescription, "Prescriptions", "Manage your prescriptions" ));
-        menuItems.add(new PatientMenuItem(R.drawable.reminder_icon_green, "Reminders", "Set medication Reminders" ));
-        menuItems.add(new PatientMenuItem(R.drawable.health, "Appointments", "Schedule Appointments" ));
+        menuItems.add(new PatientMenuItem(R.drawable.reminder_bell_green, "Reminders", "Set medication Reminders" ));
+        menuItems.add(new PatientMenuItem(R.drawable.appointment_icon, "Appointments", "Schedule Appointments" ));
         menuItems.add(new PatientMenuItem(R.drawable.cross_location, "Nearby Pharmacies", "Show close by pharmacies" ));
         menuItems.add(new PatientMenuItem(R.drawable.virus_logo, "COVID-19", "Latest stats and information"));
         menuItems.add(new PatientMenuItem(R.drawable.about_icon, "About", "More information about Patient Pal" ));
@@ -159,13 +158,15 @@ public class PatientHome extends AppCompatActivity {
         CustomIntent.customType(this, "left-to-right");
     }
 
-    public void viewRegisteredPharmacies(View v){
-        Intent goToRegisteredPharmacies;
+    public void goToAppointments(View v){
+        Intent appointmentsIntent = new Intent(this, AppointmentsMainActivity.class);
+        startActivity(appointmentsIntent);
+        CustomIntent.customType(this, "left-to-right");
     }
 
     public void signOut(View v){
 
-        mAuth.signOut();
+        //mAuth.signOut();
         Intent logOutIntent = new Intent(this, MainActivity.class);
         startActivity(logOutIntent);
         CustomIntent.customType(this, "fadein-to-fadeout");

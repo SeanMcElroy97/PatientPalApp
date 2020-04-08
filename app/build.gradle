@@ -72,5 +72,9 @@ dependencies {
 
     //Picasso
     implementation 'com.squareup.picasso:picasso:2.71828'
+
+    //Compact Calendar v
+    implementation 'com.github.sundeepk:compact-calendar-view:3.0.0'
+
 }
 apply plugin: 'com.google.gms.google-services'

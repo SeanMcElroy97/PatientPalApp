@@ -37,4 +37,9 @@ public class MedicineReminderMainActivity extends AppCompatActivity {
         super.finish();
         CustomIntent.customType(this, "right-to-left");
     }
+
+    public void finish(View view){
+        super.finish();
+        CustomIntent.customType(this, "right-to-left");
+    }
 }

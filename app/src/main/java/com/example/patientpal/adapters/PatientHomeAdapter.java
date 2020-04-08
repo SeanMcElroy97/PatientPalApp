@@ -64,7 +64,7 @@ public class PatientHomeAdapter extends RecyclerView.Adapter<PatientHomeAdapter.
                     patientHomeActivity.gotoReminderActivity(v);
                     break;
                 case 2:
-                    Toast t = Toast.makeText(patientHomeActivity, "Appointments", Toast.LENGTH_LONG);
+                    patientHomeActivity.goToAppointments(v);
                     break;
                 case 3:
                     //Toast.makeText(context, "Reminders", Toast.LENGTH_LONG).show();

@@ -10,6 +10,7 @@ public class Prescription {
     Map<String, Integer> medItems;
     String instructions;
     String status;
+    String pictureID;
     Date prescriptionCreationDate;
 
 
@@ -54,5 +55,17 @@ public class Prescription {
 
     public void setPrescriptionCreationDate(Date prescriptionCreationDate) {
         this.prescriptionCreationDate = prescriptionCreationDate;
+    }
+
+    public Map<String, Integer> getMedItems() {
+        return medItems;
+    }
+
+    public String getPictureID() {
+        return pictureID;
+    }
+
+    public void setPictureID(String pictureID) {
+        this.pictureID = pictureID;
     }
 }

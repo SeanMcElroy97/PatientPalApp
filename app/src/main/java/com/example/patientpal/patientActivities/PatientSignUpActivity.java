@@ -31,8 +31,7 @@ public class PatientSignUpActivity extends AppCompatActivity {
     private TextInputLayout textInputSecondName;
     private TextInputLayout textInputPassword;
 
-    private FirebaseFirestore db;
-    private FirebaseAuth auth;
+//    private FirebaseAuth auth;
 
 
     ProgressBar progressBar;
@@ -51,15 +50,15 @@ public class PatientSignUpActivity extends AppCompatActivity {
         textInputPassword = findViewById(R.id.text_input_password);
 
 
-        //Firebase
-        db = FirebaseFirestore.getInstance();
-        auth = FirebaseAuth.getInstance();
+//        //Firebase
+//        db = FirebaseFirestore.getInstance();
+//        auth = FirebaseAuth.getInstance();
     }
 
     public void onStart() {
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = auth.getCurrentUser();
+        //FirebaseUser currentUser = auth.getCurrentUser();
         //go to homepage
         //updateUI(currentUser);
     }
@@ -172,62 +171,41 @@ public class PatientSignUpActivity extends AppCompatActivity {
             return;
         }
 
-            final CollectionReference dbPatientUsers = db.collection("patientUsers");
+            //final CollectionReference dbPatientUsers = db.collection("patientUsers");
 
-            final PatientUser pUser = new PatientUser(firstNameInput, secondNameInput, emailInput, phoneNumber, password);
+            //final PatientUser pUser = new PatientUser(firstNameInput, secondNameInput, emailInput, phoneNumber, password);
 
-            progressBar.setVisibility(View.VISIBLE);
-            auth.createUserWithEmailAndPassword(pUser.getEmail(), pUser.getPassword())
-                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-
-                            if (task.isSuccessful()) {
-
-
-                                dbPatientUsers.add(pUser);
-                                progressBar.setVisibility(View.GONE);
-                                // Sign in success, update UI with the signed-in user's information
-                                Toast.makeText(PatientSignUpActivity.this, "User Registered Successful.", Toast.LENGTH_SHORT).show();
-                                FirebaseUser user = auth.getCurrentUser();
-
-
-                                Intent signUpToHomeIntent = new Intent(PatientSignUpActivity.this, PatientHome.class);
-                                signUpToHomeIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                startActivity(signUpToHomeIntent);
-
-
-                            } else {
-
-                                if (task.getException() instanceof FirebaseAuthUserCollisionException) {
-                                    textInputEmail.setError("Existing account with email address");
-                                } else {
-                                    Toast.makeText(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_LONG).show();
-                                }
-                            }
-                        }
-                    });
-
-
-//       //Firestore db
-//        dbPatientUsers.add(pUser)
-//                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-//                    @Override
-//                    public void onSuccess(DocumentReference documentReference) {
-//                        Toast.makeText(PatientSignUpActivity.this, "User Saved", Toast.LENGTH_SHORT).show();
-//                    }
-//                })
-//                .addOnFailureListener(new OnFailureListener() {
-//                    @Override
-//                    public void onFailure(@NonNull Exception e) {
-//                        Toast.makeText(PatientSignUpActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+//            progressBar.setVisibility(View.VISIBLE);
+//            auth.createUserWithEmailAndPassword(pUser.getEmail(), pUser.getPassword())
+//                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+//                        @Override
+//                        public void onComplete(@NonNull Task<AuthResult> task) {
 //
-//                    }
-//                });
+//                            if (task.isSuccessful()) {
 //
-//      //Toast.makeText(this, "GUCCI", Toast.LENGTH_LONG).show();
-
-
+//
+//                                dbPatientUsers.add(pUser);
+//                                progressBar.setVisibility(View.GONE);
+//                                // Sign in success, update UI with the signed-in user's information
+//                                Toast.makeText(PatientSignUpActivity.this, "User Registered Successful.", Toast.LENGTH_SHORT).show();
+//                                FirebaseUser user = auth.getCurrentUser();
+//
+//
+//                                Intent signUpToHomeIntent = new Intent(PatientSignUpActivity.this, PatientHome.class);
+//                                signUpToHomeIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                                startActivity(signUpToHomeIntent);
+//
+//
+//                            } else {
+//
+//                                if (task.getException() instanceof FirebaseAuthUserCollisionException) {
+//                                    textInputEmail.setError("Existing account with email address");
+//                                } else {
+//                                    Toast.makeText(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_LONG).show();
+//                                }
+//                            }
+//                        }
+//                    });
     }
 
 

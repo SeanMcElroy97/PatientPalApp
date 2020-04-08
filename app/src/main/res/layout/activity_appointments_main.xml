@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".appointments.AppointmentsMainActivity"
+    android:background="@color/lightGrey">
+
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:background="@color/transparent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintTop_toTopOf="parent"
+        android:onClick="finish"
+        app:srcCompat="@drawable/patient_pal_logo" />
+
+    <TextView
+        android:id="@+id/patientHomeTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="27dp"
+        android:layout_toEndOf="@+id/imageView"
+        android:background="#00FFFFFF"
+        android:fontFamily="@font/average"
+        android:text="Appointments"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textColor="#7FD858"
+        android:textSize="36sp"
+        android:textStyle="bold" />
+
+    <RelativeLayout
+        android:background="#fff"
+        android:layout_width="match_parent"
+        android:layout_height="669dp"
+        android:layout_marginTop="116dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        >
+
+
+        <!--        <CalendarView-->
+<!--            android:id="@+id/appointmentCalendarView"-->
+<!--            android:theme="@style/CustomCalendarMonth"-->
+<!--            android:weekDayTextAppearance="@style/WeekDayAppearance"-->
+<!--            android:dateTextAppearance="@style/DateAppearance"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="310dp"-->
+<!--            android:layout_alignParentTop="true"-->
+<!--            android:layout_alignParentEnd="true"-->
+<!--            android:layout_marginTop="64dp"-->
+<!--            android:layout_marginEnd="0dp"-->
+<!--            android:background="bo"/>-->
+
+        <TextView
+            android:id="@+id/MonthTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="0dp"
+            android:layout_centerHorizontal="true"
+            android:background="@color/transparent"
+            android:text="NOVEMBER - 2020"
+            android:textColor="@color/ButtonGreen"
+            android:textSize="32sp"
+            android:textStyle="bold" />
+
+        <com.github.sundeepk.compactcalendarview.CompactCalendarView
+            android:id="@+id/compactCalendarView"
+            android:layout_width="fill_parent"
+            android:layout_height="250dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="311dp"
+            android:paddingLeft="10dp"
+            android:paddingTop="10dp"
+            android:paddingRight="10dp"
+            app:compactCalendarBackgroundColor="#fff"
+            app:compactCalendarCurrentDayBackgroundColor="#FFD700"
+            app:compactCalendarCurrentSelectedDayBackgroundColor="@color/ButtonGreen"
+            app:compactCalendarMultiEventIndicatorColor="@color/red"
+            app:compactCalendarTargetHeight="250dp"
+            app:compactCalendarTextColor="@color/quantum_black_text"
+            app:compactCalendarTextSize="18sp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="298dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="20dp"
+            android:background="@layout/custom_appointment_recview_border" />
+
+
+    </RelativeLayout>
+
+</RelativeLayout>

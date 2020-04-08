@@ -4,24 +4,49 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".medicineReminders.MedicineReminderMainActivity">
+    tools:context=".medicineReminders.MedicineReminderMainActivity"
+    android:background="@color/lightGrey">
 
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewReminders"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="0dp"
-        android:background="@color/white" />
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:background="@color/transparent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintTop_toTopOf="parent"
+        android:onClick="finish"
+        app:srcCompat="@drawable/patient_pal_logo" />
 
-    <RelativeLayout
-        android:id="@+id/empty_view"
+    <TextView
+        android:id="@+id/patientHomeTxt"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_centerInParent="true">
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="27dp"
+        android:layout_toEndOf="@+id/imageView"
+        android:background="#00FFFFFF"
+        android:fontFamily="@font/average"
+        android:text="Reminders"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textColor="#7FD858"
+        android:textSize="36sp"
+        android:textStyle="bold" />
+
+<!--    <androidx.recyclerview.widget.RecyclerView-->
+<!--        android:id="@+id/recyclerViewReminders"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:layout_alignParentStart="true"-->
+<!--        android:layout_alignParentTop="true"-->
+<!--        android:layout_alignParentEnd="true"-->
+<!--        android:layout_marginStart="0dp"-->
+<!--        android:background="@color/white" />-->
 
         <TextView
             android:id="@+id/no_reminder_text"
@@ -32,7 +57,7 @@
             android:gravity="center"
             android:text="Click on button below to begin creating your reminder!"/>
 
-    </RelativeLayout>
+
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"

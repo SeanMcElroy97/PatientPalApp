@@ -31,12 +31,24 @@ import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.example.patientpal.R;
+import com.example.patientpal.model.Prescription;
+import com.example.patientpal.services.VolleySingletonRequestQueue;
 import com.github.chrisbanes.photoview.PhotoView;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 import static android.os.Environment.getExternalStoragePublicDirectory;
@@ -47,9 +59,12 @@ public class NewPrescriptionFragment extends Fragment{
     public static final int CAMERA_REQUEST_CODE = 102;
     public static final int GALLERY_REQUEST_CODE = 103;
 
-    private ImageButton takePictureBtn, choosePicFromGalleryBtn, retryButton;
+    private ImageButton takePictureBtn, choosePicFromGalleryBtn, retryButton, sendButton;
     private ImageView prescriptionImage;
     private AutoCompleteTextView autoText;
+
+    //API
+    RequestQueue mRequestQueue;
 
     String currentPhotoPath;
 
@@ -69,6 +84,7 @@ public class NewPrescriptionFragment extends Fragment{
         autoText = v.findViewById(R.id.autoCompletePharmacy);
         retryButton = v.findViewById(R.id.retryBtn);
         retryButton.setVisibility(View.GONE);
+        sendButton = v.findViewById(R.id.sendPrescriptionBtnView);
 
         //Probably be of pharmacy objects
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, pharmaciesAvailable);
@@ -98,6 +114,14 @@ public class NewPrescriptionFragment extends Fragment{
                 choosePicFromGalleryBtn.setVisibility(View.VISIBLE);
                 takePictureBtn.setVisibility(View.VISIBLE);
                 retryButton.setVisibility(View.GONE);
+            }
+        });
+
+
+        sendButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getContext(), "Send Button Hit", Toast.LENGTH_SHORT).show();
             }
         });
         return v;
@@ -205,6 +229,45 @@ public class NewPrescriptionFragment extends Fragment{
                 startActivityForResult(takePictureIntent, CAMERA_REQUEST_CODE);
             }
         }
+    }
+
+    public void postAPrescription(){{
+        mRequestQueue = VolleySingletonRequestQueue.getInstance(getContext()).getRequestQueue();
+        Prescription nuevoPrescription = new Prescription();
+
+//        nuevoPrescription.setInstructions();
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, getString(R.string.spring_boot_url) + "mobile/myprescriptions", null, new Response.Listener<JSONArray>() {
+
+
+            @Override
+            public void onResponse(JSONArray response) {
+
+                try {
+                    for (int i = 0; i < response.length(); i++) {
+
+                        JSONObject JSONprescriptionOBJ = response.getJSONObject(i);
+
+                        Prescription prescription = new Prescription();
+                        prescription.setPrescriptionID(Integer.parseInt(JSONprescriptionOBJ.getString("prescriptionID")));
+                        prescription.setStatus(JSONprescriptionOBJ.getString("status"));
+
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                System.out.println(error.toString());
+            }
+        });
+
+        mRequestQueue.add(jsonArrayRequest);
+
+    }
+
     }
 
 
