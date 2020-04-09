@@ -40,6 +40,11 @@ import com.example.patientpal.R;
 import com.example.patientpal.model.Prescription;
 import com.example.patientpal.services.VolleySingletonRequestQueue;
 import com.github.chrisbanes.photoview.PhotoView;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -50,6 +55,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.UUID;
 
 import static android.os.Environment.getExternalStoragePublicDirectory;
 
@@ -63,10 +69,18 @@ public class NewPrescriptionFragment extends Fragment{
     private ImageView prescriptionImage;
     private AutoCompleteTextView autoText;
 
+
+    private String mImageFileName;
+    private Uri mContentURI;
+
     //API
     RequestQueue mRequestQueue;
 
     String currentPhotoPath;
+
+
+    //Firebase Storage
+    private StorageReference mStorageRef;
 
     private static final String[] pharmaciesAvailable = new String[]{ "Joes Pharmacy", "McElroys Pharmacy", "Your Local Pharmacies", "Bobs Pharmacy", "Boots", "Jockos Pharmacy", "Macho Meds Pharm", "Snake oil supplies"};
 
@@ -121,9 +135,14 @@ public class NewPrescriptionFragment extends Fragment{
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getContext(), "Send Button Hit", Toast.LENGTH_SHORT).show();
+                postAPrescription();
+                //Toast.makeText(getContext(), "Send Button Hit", Toast.LENGTH_SHORT).show();
             }
         });
+
+
+        //Instantaite the Storage reference
+        mStorageRef = FirebaseStorage.getInstance().getReference();
         return v;
     }
 
@@ -132,6 +151,8 @@ public class NewPrescriptionFragment extends Fragment{
     private void askCameraPermission() {
         if(ContextCompat.checkSelfPermission(getContext(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
             ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CAMERA}, CAMERA_PERMISSION_CODE);
+
+
         }else {
             //Permission is already granted
             System.out.println("Calling dispatch Picture Intent");
@@ -159,8 +180,10 @@ public class NewPrescriptionFragment extends Fragment{
                 System.out.println("Current photo path: " + currentPhotoPath);
                 takePictureBtn.setVisibility(View.GONE);
                 choosePicFromGalleryBtn.setVisibility(View.GONE);
-                File f = new File(currentPhotoPath);
-                prescriptionImage.setImageURI(Uri.fromFile(f));
+                File imageFile = new File(currentPhotoPath);
+                mImageFileName = imageFile.getName();
+                mContentURI = Uri.fromFile(imageFile);
+                prescriptionImage.setImageURI(mContentURI);
                 retryButton.setVisibility(View.VISIBLE);
             }
         }
@@ -168,11 +191,10 @@ public class NewPrescriptionFragment extends Fragment{
         if(requestCode == GALLERY_REQUEST_CODE){
             if(resultCode == Activity.RESULT_OK) {
 
-                Uri contentUri = data.getData();
+                mContentURI = data.getData();
                 String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-                String imageFileName = "JPEG_" + timeStamp + "."+getFileExtension(contentUri);
-               
-                prescriptionImage.setImageURI(contentUri);
+                mImageFileName = "JPEG_" + timeStamp + "."+getFileExtension(mContentURI);
+                prescriptionImage.setImageURI(mContentURI);
 
                 takePictureBtn.setVisibility(View.GONE);
                 choosePicFromGalleryBtn.setVisibility(View.GONE);
@@ -231,44 +253,73 @@ public class NewPrescriptionFragment extends Fragment{
         }
     }
 
-    public void postAPrescription(){{
-        mRequestQueue = VolleySingletonRequestQueue.getInstance(getContext()).getRequestQueue();
-        Prescription nuevoPrescription = new Prescription();
+    public void postAPrescription(){
 
-//        nuevoPrescription.setInstructions();
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, getString(R.string.spring_boot_url) + "mobile/myprescriptions", null, new Response.Listener<JSONArray>() {
+        uploadImageToStorage();
+//        mRequestQueue = VolleySingletonRequestQueue.getInstance(getContext()).getRequestQueue();
+//        Prescription nuevoPrescription = new Prescription();
+//
+////        nuevoPrescription.setInstructions();
+//        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, getString(R.string.spring_boot_url) + "mobile/myprescriptions", null, new Response.Listener<JSONArray>() {
+//
+//
+//            @Override
+//            public void onResponse(JSONArray response) {
+//
+//                try {
+//                    for (int i = 0; i < response.length(); i++) {
+//
+//                        JSONObject JSONprescriptionOBJ = response.getJSONObject(i);
+//
+//                        Prescription prescription = new Prescription();
+//                        prescription.setPrescriptionID(Integer.parseInt(JSONprescriptionOBJ.getString("prescriptionID")));
+//                        prescription.setStatus(JSONprescriptionOBJ.getString("status"));
+//
+//                    }
+//
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }, new Response.ErrorListener() {
+//            @Override
+//            public void onErrorResponse(VolleyError error) {
+//                System.out.println(error.toString());
+//            }
+//        });
+//
+//        mRequestQueue.add(jsonArrayRequest);
+
+    }
 
 
-            @Override
-            public void onResponse(JSONArray response) {
+    public void uploadImageToStorage(){
 
-                try {
-                    for (int i = 0; i < response.length(); i++) {
+        final StorageReference storageRef = mStorageRef.child("prescriptionImages/" + UUID.randomUUID() + ".jpg");
 
-                        JSONObject JSONprescriptionOBJ = response.getJSONObject(i);
-
-                        Prescription prescription = new Prescription();
-                        prescription.setPrescriptionID(Integer.parseInt(JSONprescriptionOBJ.getString("prescriptionID")));
-                        prescription.setStatus(JSONprescriptionOBJ.getString("status"));
-
+        Toast.makeText(getContext(), mContentURI.toString(), Toast.LENGTH_SHORT).show();
+        storageRef.putFile(mContentURI)
+                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        storageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                Toast.makeText(getContext(), "on SUccess uri is " + uri.toString(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
                     }
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                System.out.println(error.toString());
-            }
-        });
-
-        mRequestQueue.add(jsonArrayRequest);
+                });
+//                .addOnFailureListener(new OnFailureListener() {
+//                    @Override
+//                    public void onFailure(@NonNull Exception e) {
+//                        Toast.makeText(getContext(), "Upload has failed", Toast.LENGTH_SHORT).show();
+//                    }
+//                });
 
     }
 
-    }
+
 
 
 }
