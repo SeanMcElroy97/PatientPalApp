@@ -79,14 +79,13 @@
              />
 
 
-
         <com.github.sundeepk.compactcalendarview.CompactCalendarView
             android:id="@+id/compactCalendarView"
-            android:layout_width="fill_parent"
-            android:layout_height="250dp"
+            android:layout_width="match_parent"
+            android:layout_height="226dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginBottom="311dp"
+            android:layout_marginBottom="335dp"
             android:paddingLeft="10dp"
             android:paddingTop="10dp"
             android:paddingRight="10dp"
@@ -101,11 +100,24 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view_appointments"
             android:layout_width="match_parent"
-            android:layout_height="298dp"
+            android:layout_height="310dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
             android:layout_marginTop="20dp"
             android:background="@layout/custom_appointment_recview_border" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/addAppointmentFAB"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:clickable="true"
+            app:srcCompat="@drawable/plus_icon"
+            app:fabCustomSize="70dp"
+            app:maxImageSize="56dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="20dp"/>
 
 
     </RelativeLayout>

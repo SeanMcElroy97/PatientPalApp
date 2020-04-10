@@ -16,6 +16,7 @@ public class Prescription {
     public Prescription() {
     }
 
+
     public Prescription(int prescriptionID) {
         this.prescriptionID = prescriptionID;
     }
