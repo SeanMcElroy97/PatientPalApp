@@ -2,7 +2,6 @@ package com.example.patientpal.model;
 
 import java.util.Date;
 import java.util.Map;
-import java.util.Set;
 
 public class Prescription {
 
@@ -10,7 +9,7 @@ public class Prescription {
     Map<String, Integer> medItems;
     String instructions;
     String status;
-    String pictureID;
+    String pictureURL;
     Date prescriptionCreationDate;
 
 
@@ -61,11 +60,11 @@ public class Prescription {
         return medItems;
     }
 
-    public String getPictureID() {
-        return pictureID;
+    public String getPictureURL() {
+        return pictureURL;
     }
 
-    public void setPictureID(String pictureID) {
-        this.pictureID = pictureID;
+    public void setPictureURL(String pictureURL) {
+        this.pictureURL = pictureURL;
     }
 }

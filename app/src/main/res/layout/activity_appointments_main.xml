@@ -63,19 +63,22 @@
 <!--            android:layout_marginEnd="0dp"-->
 <!--            android:background="bo"/>-->
 
+
+
         <TextView
             android:id="@+id/MonthTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
             android:layout_marginTop="0dp"
             android:layout_centerHorizontal="true"
             android:background="@color/transparent"
-            android:text="NOVEMBER - 2020"
+            android:text=" 10 NOVEMBER 2021"
             android:textColor="@color/ButtonGreen"
-            android:textSize="32sp"
-            android:textStyle="bold" />
+            android:textSize="28sp"
+             />
+
+
 
         <com.github.sundeepk.compactcalendarview.CompactCalendarView
             android:id="@+id/compactCalendarView"
@@ -88,14 +91,15 @@
             android:paddingTop="10dp"
             android:paddingRight="10dp"
             app:compactCalendarBackgroundColor="#fff"
-            app:compactCalendarCurrentDayBackgroundColor="#FFD700"
-            app:compactCalendarCurrentSelectedDayBackgroundColor="@color/ButtonGreen"
+            app:compactCalendarCurrentDayBackgroundColor="#BDC2FF"
+            app:compactCalendarCurrentSelectedDayBackgroundColor="@color/colorAccent"
             app:compactCalendarMultiEventIndicatorColor="@color/red"
             app:compactCalendarTargetHeight="250dp"
             app:compactCalendarTextColor="@color/quantum_black_text"
-            app:compactCalendarTextSize="18sp" />
+            app:compactCalendarTextSize="16sp" />
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view_appointments"
             android:layout_width="match_parent"
             android:layout_height="298dp"
             android:layout_alignParentEnd="true"
