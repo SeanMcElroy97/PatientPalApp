@@ -10,7 +10,7 @@ public class LocationCovidStats implements Parcelable {
     private int latestTotalCases;
     private int latestTotalDeaths;
     private int latestTotalRecoveries;
-    private int totalCases7DaysAgo;
+
 
     public LocationCovidStats() {
     }
@@ -21,7 +21,6 @@ public class LocationCovidStats implements Parcelable {
         latestTotalCases = in.readInt();
         latestTotalDeaths = in.readInt();
         latestTotalRecoveries = in.readInt();
-        totalCases7DaysAgo = in.readInt();
     }
 
     public static final Creator<LocationCovidStats> CREATOR = new Creator<LocationCovidStats>() {
@@ -76,13 +75,6 @@ public class LocationCovidStats implements Parcelable {
         this.latestTotalRecoveries = latestTotalRecoveries;
     }
 
-    public int getTotalCases7DaysAgo() {
-        return totalCases7DaysAgo;
-    }
-
-    public void setTotalCases7DaysAgo(int totalCases7DaysAgo) {
-        this.totalCases7DaysAgo = totalCases7DaysAgo;
-    }
 
     @Override
     public String toString() {
@@ -92,7 +84,6 @@ public class LocationCovidStats implements Parcelable {
                 ", latestTotalCases=" + latestTotalCases +
                 ", latestTotalDeaths=" + latestTotalDeaths +
                 ", latestTotalRecoveries=" + latestTotalRecoveries +
-                ", totalCases7DaysAgo=" + totalCases7DaysAgo +
                 '}';
     }
 
@@ -108,6 +99,6 @@ public class LocationCovidStats implements Parcelable {
         parcel.writeInt(latestTotalCases);
         parcel.writeInt(latestTotalDeaths);
         parcel.writeInt(latestTotalRecoveries);
-        parcel.writeInt(totalCases7DaysAgo);
+
     }
 }

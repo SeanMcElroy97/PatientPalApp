@@ -8,30 +8,42 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.patientpal.R;
+import com.example.patientpal.model.Appointment;
 import com.example.patientpal.model.CountryCovidStats;
 import com.github.sundeepk.compactcalendarview.domain.Event;
 import com.squareup.picasso.Picasso;
 
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class AppointmentListAdapter extends RecyclerView.Adapter<AppointmentListAdapter.MyViewHolder>{
 
     //May make an appointment obj
-    private ArrayList<Event> mAppointments;
+    //private ArrayList<Event> mAppointments;
+    private ArrayList<Appointment> mAppointments;
     private Context mContext;
+
+
     //Dialog mCountryDialog;
 
 
     //Adapter Constructor
-    public AppointmentListAdapter(Context ctx, ArrayList<Event> dateEvents){
+//    public AppointmentListAdapter(Context ctx, ArrayList<Event> dateEvents){
+//        mContext = ctx;
+//        mAppointments = dateEvents;
+//    }
+
+    public AppointmentListAdapter(Context ctx, ArrayList<Appointment> dateAppointments){
         mContext = ctx;
-        mAppointments = dateEvents;
+        mAppointments = dateAppointments;
     }
 
 
@@ -39,13 +51,20 @@ public class AppointmentListAdapter extends RecyclerView.Adapter<AppointmentList
 
     //Inner ViewHolder class
     public class MyViewHolder extends RecyclerView.ViewHolder{
+
+        //SimpleDateFormat mSimpleDateFormat = new SimpleDateFormat();
+
         private LinearLayout mAppointmentItem;
         TextView mAppointmentTitle;
+        TextView mAppointmentInfo;
+        TextView mAppointmentTimeStr;
 
         public MyViewHolder(View itemView){
             super(itemView);
             mAppointmentItem = itemView.findViewById(R.id.appointment_item_layout);
             mAppointmentTitle = itemView.findViewById(R.id.appointmentTitle);
+            mAppointmentInfo = itemView.findViewById(R.id.apoointmentInfoTextV);
+            mAppointmentTimeStr = itemView.findViewById(R.id.appointmentTime);
 
         }
 
@@ -66,45 +85,24 @@ public class AppointmentListAdapter extends RecyclerView.Adapter<AppointmentList
     //Set contents of viewholder
     public void onBindViewHolder(@NonNull final AppointmentListAdapter.MyViewHolder vholder, int position) {
 
+        Date d = new Date(mAppointments.get(position).getTimeinMillis());
 
-        //mCountryDialog = new Dialog(mContext);
-        //mCountryDialog.setContentView(R.layout.dialog_country);
-        /////////
+        String formatHour = String.valueOf(d.getHours());
+        String formatMinute = String.valueOf(d.getMinutes());
 
+        if(formatHour.length()<2){
+            formatHour = "0" + formatHour;
+        }
+        if(formatMinute.length()<2){
+            formatMinute = "0" + formatMinute;
+        }
 
-//        vholder.countryItem.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                TextView dialog_name = mCountryDialog.findViewById(R.id.dialog_country_name);
-//                ImageView dialog_flag = mCountryDialog.findViewById(R.id.dialog_country_flag);
-//                TextView txtclose = mCountryDialog.findViewById(R.id.dialog_close_x);
-//                TextView dialog_confirmed_val = mCountryDialog.findViewById(R.id.dialog_country_confirmed_num);
-//                TextView dialog_death_val = mCountryDialog.findViewById(R.id.dialog_country_deaths_num);
-//                TextView dialog_recovered_val = mCountryDialog.findViewById(R.id.dialog_country_recovered_num);
-//                /////////
-//                dialog_name.setText(mCountryItems.get(vholder.getAdapterPosition()).getCountryName());
-//                dialog_confirmed_val.setText(formatNumbers(mCountryItems.get(vholder.getAdapterPosition()).getTotalConfirmedCases()));
-//                dialog_death_val.setText(formatNumbers(mCountryItems.get(vholder.getAdapterPosition()).getTotalDeaths()));
-//                dialog_recovered_val.setText(formatNumbers(mCountryItems.get(vholder.getAdapterPosition()).getTotalRecovered()));
-//                //
-//                if(mCountryItems.get(vholder.getAdapterPosition()).getCountryCode().length()<1){
-//                    dialog_flag.setImageResource(R.drawable.about_icon);
-//                }else{
-//                    Picasso.get().load("https://www.countryflags.io/" + mCountryItems.get(vholder.getAdapterPosition()).getCountryCode() + "/shiny/64.png").into(dialog_flag);
-//                }
-//                txtclose.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View view) {
-//                        mCountryDialog.dismiss();
-//                    }
-//                });
-//
-//                mCountryDialog.show();
-//            }
-//        });
+        String timeText = formatHour + ":" + formatMinute;
 
 
-        vholder.mAppointmentTitle.setText(mAppointments.get(position).getData().toString());
+        vholder.mAppointmentTitle.setText(mAppointments.get(position).getAppointmenttitle());
+        vholder.mAppointmentInfo.setText(mAppointments.get(position).getAdditionalInfo());
+        vholder.mAppointmentTimeStr.setText(timeText);
     }
 
 

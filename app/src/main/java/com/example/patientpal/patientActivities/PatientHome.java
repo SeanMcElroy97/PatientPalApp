@@ -174,6 +174,7 @@ public class PatientHome extends AppCompatActivity {
 
 
     public void CoronaCheck(){
+        System.out.println("corona method hit");
         mRequestQueue = VolleySingletonRequestQueue.getInstance(this).getRequestQueue();
         globalCovidStats = new ArrayList<>();
         final JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, getString(R.string.spring_boot_url)+"covid19/all", null, new Response.Listener<JSONArray>() {
@@ -193,10 +194,10 @@ public class PatientHome extends AppCompatActivity {
                     locationStats.setLatestTotalCases(Integer.parseInt(locationCOV.getString("latestTotalCases")));
                     locationStats.setLatestTotalDeaths(Integer.parseInt(locationCOV.getString("latestTotalDeaths")));
                     locationStats.setLatestTotalRecoveries(Integer.parseInt(locationCOV.getString("latestTotalRecoveries")));
-                    locationStats.setTotalCases7DaysAgo(Integer.parseInt(locationCOV.getString("totalCases7DaysAgo")));
+
 
                     globalCovidStats.add(locationStats);
-                    System.out.println("Did this work? \n" + locationStats.toString());
+                    //System.out.println("Did this work? \n" + locationStats.toString());
 
                 }
                 //Still in try

@@ -36,7 +36,7 @@ import java.util.Set;
 public class CovidFragmentCollectionAdapter extends FragmentPagerAdapter {
 
     ArrayList<LocationCovidStats> covidTotals;
-    Set<CountryCovidStats> setOfCountries, testSet;
+    Set<CountryCovidStats> setOfCountries;
 
 
     Context context;

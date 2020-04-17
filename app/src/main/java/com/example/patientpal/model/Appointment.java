@@ -8,26 +8,26 @@ import java.util.Date;
 
 public class Appointment {
 
-    private Event calendarEvent;
+    private String appointmenttitle;
     private String additionalInfo;
-    private LocalTime time;
+    private Long timeinMillis;
 
+
+    public Appointment(String appointmenttitle, String additionalInfo, Long timeinMillis) {
+        this.appointmenttitle = appointmenttitle;
+        this.additionalInfo = additionalInfo;
+        this.timeinMillis = timeinMillis;
+    }
 
     public Appointment() {
     }
 
-    public Appointment(Event calendarEvent, String additionalInfo, LocalTime time) {
-        this.calendarEvent = calendarEvent;
-        this.additionalInfo = additionalInfo;
-        this.time = time;
+    public String getAppointmenttitle() {
+        return appointmenttitle;
     }
 
-    public Event getCalendarEvent() {
-        return calendarEvent;
-    }
-
-    public void setCalendarEvent(Event calendarEvent) {
-        this.calendarEvent = calendarEvent;
+    public void setAppointmenttitle(String appointmenttitle) {
+        this.appointmenttitle = appointmenttitle;
     }
 
     public String getAdditionalInfo() {
@@ -38,11 +38,21 @@ public class Appointment {
         this.additionalInfo = additionalInfo;
     }
 
-    public LocalTime getTime() {
-        return time;
+    public Long getTimeinMillis() {
+        return timeinMillis;
     }
 
-    public void setTime(LocalTime time) {
-        this.time = time;
+    public void setTimeinMillis(Long timeinMillis) {
+        this.timeinMillis = timeinMillis;
+    }
+
+
+    @Override
+    public String toString() {
+        return "Appointment{" +
+                "appointmenttitle='" + appointmenttitle + '\'' +
+                ", additionalInfo='" + additionalInfo + '\'' +
+                ", timeinMillis='" + timeinMillis + '\'' +
+                '}';
     }
 }
