@@ -6,18 +6,28 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.patientpal.R;
 import com.example.patientpal.adapters.AppointmentListAdapter;
 import com.example.patientpal.model.Appointment;
+import com.example.patientpal.services.VolleySingletonRequestQueue;
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.github.sundeepk.compactcalendarview.domain.Event;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -36,7 +46,7 @@ public class AppointmentsMainActivity extends AppCompatActivity implements Creat
     private SimpleDateFormat mMilisecondFormat = new SimpleDateFormat("ss", Locale.getDefault());
     SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
     ArrayList<Appointment> appointmentsOnSelectedDay;
-    ArrayList<Appointment> allUserAppointments = new ArrayList<>();
+    ArrayList<Appointment> allUserAppointments;
     AppointmentListAdapter recViewAdapter;
     Date mselectedDate;
 
@@ -44,6 +54,8 @@ public class AppointmentsMainActivity extends AppCompatActivity implements Creat
 
     RecyclerView apponintmentRecyclerView;
 
+
+    RequestQueue mRequestQueue;
 
     //Methods
 
@@ -64,8 +76,10 @@ public class AppointmentsMainActivity extends AppCompatActivity implements Creat
 
 
 
-        //Call api for appointments
-        //for each appointment create an event to add to compact calendar
+        allUserAppointments = getIntent().getParcelableArrayListExtra("appointmentArray");
+        setupRecyclerView(mselectedDate);
+
+        setUpCalendarEvents(allUserAppointments);
 
 
 //        //Set Doctors appointment 10th
@@ -81,22 +95,16 @@ public class AppointmentsMainActivity extends AppCompatActivity implements Creat
                 mselectedDate = dateClicked;
                 mMonthTextView.setText(mdateFormat.format(mselectedDate).toUpperCase());
                 //pass arraylist of appointments
-                try {
                     setupRecyclerView(dateClicked);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
+
 
             }
 
             @Override
             public void onMonthScroll(Date firstDayOfNewMonth) {
                 mMonthTextView.setText(mdateFormat.format(firstDayOfNewMonth).toUpperCase());
-                try {
                     setupRecyclerView(firstDayOfNewMonth);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
+
             }
         });
 
@@ -112,13 +120,15 @@ public class AppointmentsMainActivity extends AppCompatActivity implements Creat
         });
     }
 
-    public void setupRecyclerView(Date d) throws ParseException {
+    public void setupRecyclerView(Date d){
         appointmentsOnSelectedDay = new ArrayList<>();
 
         for(Appointment a: allUserAppointments){
             Date y = new Date(a.getTimeinMillis());
-            if(y.getDay() == d.getDay()){
+            if(y.getDate() == d.getDate()){
                 appointmentsOnSelectedDay.add(a);
+
+//                Toast.makeText(getApplicationContext(), y.getDay(), Toast.LENGTH_SHORT).show();
             }
 
         }
@@ -131,6 +141,12 @@ public class AppointmentsMainActivity extends AppCompatActivity implements Creat
         apponintmentRecyclerView.setAdapter(recViewAdapter);
     }
 
+    public void setUpCalendarEvents(ArrayList<Appointment> appointmentList){
+
+        for(Appointment a: appointmentList){
+            mCompactCalendarView.addEvent(new Event(Color.RED, a.getTimeinMillis(), a.getAppointmenttitle()));
+        }
+    }
 
     public void finish(){
         super.finish();
@@ -156,18 +172,55 @@ public class AppointmentsMainActivity extends AppCompatActivity implements Creat
         try {
 //            Date date = sdf.parse("19/04/20 21:05:00");
             Date date = sdf.parse(dateString);
-            Toast.makeText(this, date.toString(), Toast.LENGTH_LONG).show();
+//            Toast.makeText(this, date.toString(), Toast.LENGTH_LONG).show();
 
             mCompactCalendarView.addEvent(new Event(Color.RED, date.getTime(), appointmentTitle));
-            Toast.makeText(this, "Date created " + date.getTime(), Toast.LENGTH_SHORT).show();
-            allUserAppointments.add(new Appointment(appointmentTitle, additionalInfo, date.getTime()));
+
+            Appointment createdAppointment =new Appointment(appointmentTitle, additionalInfo, date.getTime());
+            allUserAppointments.add(createdAppointment);
+
             setupRecyclerView(date);
 
             //Call api to save Appointment.
+            saveAppointment(createdAppointment);
+
 
         } catch (ParseException e) {
             e.printStackTrace();
         }
+
+
+    }
+
+    public void saveAppointment(Appointment a){
+        mRequestQueue = VolleySingletonRequestQueue.getInstance(this).getRequestQueue();
+        JsonObjectRequest postAppointmentrequest;
+
+        try{
+            JSONObject jsonBody = new JSONObject();
+
+            jsonBody.put("appointmenttitle", a.getAppointmenttitle());
+            jsonBody.put("additionalInfo", a.getAdditionalInfo());
+            jsonBody.put("timeinMillis", a.getTimeinMillis());
+
+
+             postAppointmentrequest = new JsonObjectRequest(Request.Method.POST, getString(R.string.spring_boot_url) + "/mobile/appointment/add", jsonBody, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+//                    Toast.makeText(getApplicationContext(), "Response:  " + response.toString(), Toast.LENGTH_SHORT).show();
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+//                    Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            mRequestQueue.add(postAppointmentrequest);
+        }catch (JSONException e){
+            //Toast.makeText(this, e.toString(), Toast.LENGTH_SHORT).show();
+        }
+
 
 
     }

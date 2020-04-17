@@ -25,6 +25,7 @@ import com.example.patientpal.adapters.PatientHomeAdapter;
 import com.example.patientpal.appointments.AppointmentsMainActivity;
 import com.example.patientpal.map.PharmaciesOnMapActivity;
 import com.example.patientpal.medicineReminders.MedicineReminderMainActivity;
+import com.example.patientpal.model.Appointment;
 import com.example.patientpal.model.LocationCovidStats;
 import com.example.patientpal.model.PatientMenuItem;
 import com.example.patientpal.patientActivities.covidActivities.CovidMainActivity;
@@ -51,6 +52,7 @@ public class PatientHome extends AppCompatActivity {
     ArrayList<LocationCovidStats> globalCovidStats;
 
     ArrayList<PatientMenuItem> menuItems;
+    ArrayList<Appointment> userAppointments;
 
     RequestQueue mRequestQueue;
 
@@ -159,9 +161,50 @@ public class PatientHome extends AppCompatActivity {
     }
 
     public void goToAppointments(View v){
-        Intent appointmentsIntent = new Intent(this, AppointmentsMainActivity.class);
-        startActivity(appointmentsIntent);
-        CustomIntent.customType(this, "left-to-right");
+
+        mRequestQueue = VolleySingletonRequestQueue.getInstance(this).getRequestQueue();
+        userAppointments = new ArrayList<>();
+
+        final JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, getString(R.string.spring_boot_url)+"/mobile/myAppointments", null, new Response.Listener<JSONArray>() {
+
+
+            @Override
+            public void onResponse(JSONArray response) {
+
+                try {
+                    for(int i=0; i<response.length();i++) {
+
+                        JSONObject appointmentJSONOBJ = response.getJSONObject(i);
+
+                        Appointment appointment = new Appointment();
+                        appointment.setAppointmenttitle(appointmentJSONOBJ.getString("appointmenttitle"));
+                        appointment.setAdditionalInfo(appointmentJSONOBJ.getString("additionalInfo"));
+                        appointment.setTimeinMillis(appointmentJSONOBJ.getLong("timeinMillis"));
+
+
+                        userAppointments.add(appointment);
+
+                    }
+
+                    Intent appointmentActivityIntent = new Intent(PatientHome.this, AppointmentsMainActivity.class);
+                    appointmentActivityIntent.putParcelableArrayListExtra("appointmentArray", userAppointments);
+                    startActivity(appointmentActivityIntent);
+                    CustomIntent.customType(PatientHome.this, "left-to-right");
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        mRequestQueue.add(jsonArrayRequest);
+
+
     }
 
     public void signOut(View v){
@@ -215,7 +258,7 @@ public class PatientHome extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                System.out.println(error.toString());
+                Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_SHORT).show();
             }
         });
 

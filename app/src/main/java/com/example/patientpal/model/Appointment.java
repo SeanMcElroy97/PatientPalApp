@@ -1,12 +1,15 @@
 package com.example.patientpal.model;
 
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.github.sundeepk.compactcalendarview.domain.Event;
 
 import java.time.LocalTime;
 import java.util.Date;
 
-public class Appointment {
+public class Appointment implements Parcelable {
 
     private String appointmenttitle;
     private String additionalInfo;
@@ -21,6 +24,8 @@ public class Appointment {
 
     public Appointment() {
     }
+
+
 
     public String getAppointmenttitle() {
         return appointmenttitle;
@@ -55,4 +60,37 @@ public class Appointment {
                 ", timeinMillis='" + timeinMillis + '\'' +
                 '}';
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(appointmenttitle);
+        parcel.writeString(additionalInfo);
+        parcel.writeLong(timeinMillis);
+
+    }
+
+
+    protected Appointment(Parcel in) {
+        appointmenttitle = in.readString();
+        additionalInfo = in.readString();
+        timeinMillis = in.readLong();
+
+    }
+
+    public static final Creator<Appointment> CREATOR = new Creator<Appointment>() {
+        @Override
+        public Appointment createFromParcel(Parcel in) {
+            return new Appointment(in);
+        }
+
+        @Override
+        public Appointment[] newArray(int size) {
+            return new Appointment[size];
+        }
+    };
 }
