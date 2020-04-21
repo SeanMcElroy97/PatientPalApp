@@ -1,5 +1,6 @@
 package com.example.patientpal.model;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Map;
 
@@ -8,9 +9,10 @@ public class Prescription {
     int prescriptionID;
     Map<String, Integer> medItems;
     String instructions;
+    String pharmacyNameStr;
     String status;
     String pictureURL;
-    Date prescriptionCreationDate;
+    Long prescriptionCreationTime;
 
 
     public Prescription() {
@@ -49,12 +51,12 @@ public class Prescription {
         this.status = status;
     }
 
-    public Date getPrescriptionCreationDate() {
-        return prescriptionCreationDate;
+    public Long getPrescriptionCreationTime() {
+        return prescriptionCreationTime;
     }
 
-    public void setPrescriptionCreationDate(Date prescriptionCreationDate) {
-        this.prescriptionCreationDate = prescriptionCreationDate;
+    public void setPrescriptionCreationTime(Long prescriptionCreationTime) {
+        this.prescriptionCreationTime = prescriptionCreationTime;
     }
 
     public Map<String, Integer> getMedItems() {
@@ -67,5 +69,13 @@ public class Prescription {
 
     public void setPictureURL(String pictureURL) {
         this.pictureURL = pictureURL;
+    }
+
+    public String getPharmacyNameStr() {
+        return pharmacyNameStr;
+    }
+
+    public void setPharmacyNameStr(String pharmacyNameStr) {
+        this.pharmacyNameStr = pharmacyNameStr;
     }
 }

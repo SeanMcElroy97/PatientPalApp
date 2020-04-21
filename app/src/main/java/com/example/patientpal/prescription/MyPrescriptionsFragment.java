@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -38,7 +39,10 @@ import maes.tech.intentanim.CustomIntent;
 public class MyPrescriptionsFragment extends Fragment {
 
     private ArrayList<Prescription> mPrescriptions;
+
+
     private RecyclerView mRecyclerView;
+    private SwipeRefreshLayout mSwipeRefresh;
     private PrescriptionListAdapter mPrescriptionListAdapter;
 
     //API call
@@ -58,6 +62,14 @@ public class MyPrescriptionsFragment extends Fragment {
         //Create RecyclerView view + Create Adapter. Set Adapter in the api method
         mRecyclerView = v.findViewById(R.id.recycler_view_prescriptions);
         mPrescriptionListAdapter = new PrescriptionListAdapter(mPrescriptions, getContext());
+
+        mSwipeRefresh = v.findViewById(R.id.swipePrescriptionRefreshLayout);
+        mSwipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                callPrescriptionsAPI();
+            }
+        });
 
         //Set layout Manager
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));

@@ -203,7 +203,6 @@ public class AppointmentsMainActivity extends AppCompatActivity implements Creat
             jsonBody.put("additionalInfo", a.getAdditionalInfo());
             jsonBody.put("timeinMillis", a.getTimeinMillis());
 
-
              postAppointmentrequest = new JsonObjectRequest(Request.Method.POST, getString(R.string.spring_boot_url) + "/mobile/appointment/add", jsonBody, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {

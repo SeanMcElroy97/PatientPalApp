@@ -3,10 +3,8 @@ package com.example.patientpal.prescription;
 import android.Manifest;
 import android.app.Activity;
 import android.content.ContentResolver;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -15,13 +13,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.MimeTypeMap;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -35,29 +31,28 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.patientpal.R;
 import com.example.patientpal.model.Prescription;
 import com.example.patientpal.services.VolleySingletonRequestQueue;
-import com.github.chrisbanes.photoview.PhotoView;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.google.gson.JsonObject;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.UUID;
-
-import static android.os.Environment.getExternalStoragePublicDirectory;
 
 public class NewPrescriptionFragment extends Fragment{
 
@@ -67,8 +62,8 @@ public class NewPrescriptionFragment extends Fragment{
 
     private ImageButton takePictureBtn, choosePicFromGalleryBtn, retryButton, sendButton;
     private ImageView prescriptionImage;
-    private AutoCompleteTextView autoText;
-
+    private AutoCompleteTextView autoTextPharmacy;
+    private EditText instructions;
 
     private String mImageFileName;
     private Uri mContentURI;
@@ -95,14 +90,14 @@ public class NewPrescriptionFragment extends Fragment{
         takePictureBtn = v.findViewById(R.id.ImageButtonTakePhoto);
         choosePicFromGalleryBtn = v.findViewById(R.id.ImageButtonChooseFromGallery);
         prescriptionImage = v.findViewById(R.id.prescription_photo_area);
-        autoText = v.findViewById(R.id.autoCompletePharmacy);
+        autoTextPharmacy = v.findViewById(R.id.autoCompletePharmacy);
         retryButton = v.findViewById(R.id.retryBtn);
         retryButton.setVisibility(View.GONE);
         sendButton = v.findViewById(R.id.sendPrescriptionBtnView);
 
         //Probably be of pharmacy objects
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, pharmaciesAvailable);
-        autoText.setAdapter(adapter);
+        autoTextPharmacy.setAdapter(adapter);
 
 
         takePictureBtn.setOnClickListener(new View.OnClickListener() {
@@ -135,11 +130,13 @@ public class NewPrescriptionFragment extends Fragment{
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                postAPrescription();
+                uploadImageToStorage();
                 //Toast.makeText(getContext(), "Send Button Hit", Toast.LENGTH_SHORT).show();
             }
         });
 
+
+        instructions = v.findViewById(R.id.rxinstructions);
 
         //Instantaite the Storage reference
         mStorageRef = FirebaseStorage.getInstance().getReference();
@@ -253,42 +250,38 @@ public class NewPrescriptionFragment extends Fragment{
         }
     }
 
-    public void postAPrescription(){
+    public void postAPrescription(String imagePathStr) throws JSONException {
 
-        uploadImageToStorage();
-//        mRequestQueue = VolleySingletonRequestQueue.getInstance(getContext()).getRequestQueue();
-//        Prescription nuevoPrescription = new Prescription();
-//
-////        nuevoPrescription.setInstructions();
-//        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, getString(R.string.spring_boot_url) + "mobile/myprescriptions", null, new Response.Listener<JSONArray>() {
-//
-//
-//            @Override
-//            public void onResponse(JSONArray response) {
-//
-//                try {
-//                    for (int i = 0; i < response.length(); i++) {
-//
-//                        JSONObject JSONprescriptionOBJ = response.getJSONObject(i);
-//
-//                        Prescription prescription = new Prescription();
-//                        prescription.setPrescriptionID(Integer.parseInt(JSONprescriptionOBJ.getString("prescriptionID")));
-//                        prescription.setStatus(JSONprescriptionOBJ.getString("status"));
-//
-//                    }
-//
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        }, new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError error) {
-//                System.out.println(error.toString());
-//            }
-//        });
-//
-//        mRequestQueue.add(jsonArrayRequest);
+
+        mRequestQueue = VolleySingletonRequestQueue.getInstance(getContext()).getRequestQueue();
+        Prescription rx = new Prescription();
+
+        rx.setPharmacyNameStr(autoTextPharmacy.toString());
+        rx.setPictureURL(imagePathStr);
+        rx.setInstructions(instructions.getText().toString());
+        rx.setPrescriptionCreationTime(new Date().getTime());
+
+        JSONObject jsonBody = new JSONObject();
+
+        jsonBody.put("instructions", rx.getInstructions());
+        jsonBody.put("prescriptionCreationTime", rx.getPrescriptionCreationTime());
+        jsonBody.put("rxImageURI", rx.getPictureURL());
+
+
+        JsonObjectRequest jsonOBJReq = new JsonObjectRequest(Request.Method.POST, getString(R.string.spring_boot_url) + "mobile/prescriptionPost", jsonBody, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                Toast.makeText(getContext(), "Prescription Sent", Toast.LENGTH_SHORT).show();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+
+
+        mRequestQueue.add(jsonOBJReq);
 
     }
 
@@ -297,7 +290,7 @@ public class NewPrescriptionFragment extends Fragment{
 
         final StorageReference storageRef = mStorageRef.child("prescriptionImages/" + UUID.randomUUID() + ".jpg");
 
-        Toast.makeText(getContext(), mContentURI.toString(), Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getContext(), mContentURI.toString(), Toast.LENGTH_SHORT).show();
         storageRef.putFile(mContentURI)
                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
@@ -305,17 +298,23 @@ public class NewPrescriptionFragment extends Fragment{
                         storageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                             @Override
                             public void onSuccess(Uri uri) {
-                                Toast.makeText(getContext(), "on SUccess uri is " + uri.toString(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getContext(), "Successful post to firebase" + uri.toString(), Toast.LENGTH_SHORT).show();
+
+                                try {
+                                    postAPrescription(uri.toString());
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
                             }
                         });
                     }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getContext(), "Upload has failed", Toast.LENGTH_SHORT).show();
+                    }
                 });
-//                .addOnFailureListener(new OnFailureListener() {
-//                    @Override
-//                    public void onFailure(@NonNull Exception e) {
-//                        Toast.makeText(getContext(), "Upload has failed", Toast.LENGTH_SHORT).show();
-//                    }
-//                });
 
     }
 
