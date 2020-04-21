@@ -61,7 +61,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-storage:19.1.1'
 
 
-
+    //Swipe Refresh layout
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.0.0'
 
 
     //Volley Dependency

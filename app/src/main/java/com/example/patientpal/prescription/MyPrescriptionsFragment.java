@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -52,35 +53,44 @@ public class MyPrescriptionsFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
+        
 
         callPrescriptionsAPI();
 
         View v = inflater.inflate(R.layout.my_prescriptions_frag_layout, container, false);
-        //goBackToMainPrescription = v.findViewById(R.id.goBackToPreBtn);
+
 
         //Create RecyclerView view + Create Adapter. Set Adapter in the api method
         mRecyclerView = v.findViewById(R.id.recycler_view_prescriptions);
-        mPrescriptionListAdapter = new PrescriptionListAdapter(mPrescriptions, getContext());
+
 
         mSwipeRefresh = v.findViewById(R.id.swipePrescriptionRefreshLayout);
         mSwipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 callPrescriptionsAPI();
+
+                mSwipeRefresh.setRefreshing(false);
             }
         });
+
+        //Initial set adapter
+        //mPrescriptionListAdapter = new PrescriptionListAdapter(mPrescriptions, getContext());
 
         //Set layout Manager
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         //Set Decorator
         mRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
+
+
+
         return v;
     }
 
 
 
        public void callPrescriptionsAPI() {
+
         mRequestQueue = VolleySingletonRequestQueue.getInstance(getContext()).getRequestQueue();
         mPrescriptions = new ArrayList<>();
            JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, getString(R.string.spring_boot_url) + "mobile/myprescriptions", null, new Response.Listener<JSONArray>() {
@@ -101,8 +111,8 @@ public class MyPrescriptionsFragment extends Fragment {
                            mPrescriptions.add(prescription);
                        }
 
-                       //Set recyclerview adapter to the adapter
-                       mRecyclerView.setAdapter(mPrescriptionListAdapter);
+                       updateRecyclerView(mPrescriptions);
+
 
                    } catch (JSONException e) {
                        e.printStackTrace();
@@ -112,10 +122,21 @@ public class MyPrescriptionsFragment extends Fragment {
                @Override
                public void onErrorResponse(VolleyError error) {
                    System.out.println(error.toString());
+                   mSwipeRefresh.setRefreshing(false);
                }
            });
 
            mRequestQueue.add(jsonArrayRequest);
+
+       }
+
+
+       public void updateRecyclerView(ArrayList<Prescription> rxList){
+           //Set recyclerview adapter to the adapter
+          mPrescriptionListAdapter = new PrescriptionListAdapter(rxList, getContext());
+           //mPrescriptionListAdapter.notifyDataSetChanged();
+           mRecyclerView.setAdapter(mPrescriptionListAdapter);
+           //Set Adapter
 
        }
 
