@@ -4,6 +4,7 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
@@ -35,6 +36,7 @@ import maes.tech.intentanim.CustomIntent;
 
 public class PharmaciesOnMapActivity extends FragmentActivity implements OnMapReadyCallback {
 
+    private Intent mIntent;
 
     private SupportMapFragment mapFragment;
 
@@ -69,11 +71,14 @@ public class PharmaciesOnMapActivity extends FragmentActivity implements OnMapRe
         });
 
 
+         mIntent = getIntent();
+        int kmRadFromIntent = mIntent.getIntExtra("kmRadius", 0);
+
         mRadiusText = findViewById(R.id.radiusText);
 
 
         mRadiusSeekBar = findViewById(R.id.radiusSeekBar);
-        mRadiusSeekBar.setProgress(2);
+        mRadiusSeekBar.setProgress(kmRadFromIntent);
 
         mRadiusInMeters = mRadiusSeekBar.getProgress() * 1000;
 
@@ -84,6 +89,7 @@ public class PharmaciesOnMapActivity extends FragmentActivity implements OnMapRe
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
                 mRadiusText.setText(i + " km");
 
+
             }
 
             @Override
@@ -93,7 +99,10 @@ public class PharmaciesOnMapActivity extends FragmentActivity implements OnMapRe
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                onMapReady(mMap);
+
+                mIntent.putExtra("kmRadius", seekBar.getProgress());
+                finishFade();
+                startActivity(mIntent);
             }
         });
 
@@ -118,6 +127,11 @@ public class PharmaciesOnMapActivity extends FragmentActivity implements OnMapRe
     public void finish(){
         super.finish();
         CustomIntent.customType(this, "right-to-left");
+    }
+
+    public void finishFade(){
+        super.finish();
+        CustomIntent.customType(this, "fadein-to-fadeout");
     }
 
 

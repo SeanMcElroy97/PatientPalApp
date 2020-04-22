@@ -111,6 +111,7 @@ public class PatientHome extends AppCompatActivity {
 
             // If permission already given.
             Intent i = new Intent(this, PharmaciesOnMapActivity.class);
+            i.putExtra("kmRadius", 2);
             startActivity(i);
             CustomIntent.customType(this, "left-to-right");
 
