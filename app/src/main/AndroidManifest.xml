@@ -22,11 +22,11 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity android:name=".appointments.AppointmentsMainActivity"></activity>
-        <activity android:name=".patientActivities.covidActivities.CovidMainActivity" />
+        <activity android:name=".covidActivities.CovidMainActivity" />
         <activity android:name=".prescription.PrescriptionHomeActivity" />
         <activity android:name=".medicineReminders.AddReminderActivity" />
         <activity android:name=".medicineReminders.MedicineReminderMainActivity" />
-        <activity android:name=".patientActivities.MedicationReminderActivity" />
+        <activity android:name=".medicineReminders.MedicationReminderActivity" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -43,13 +43,13 @@
             android:resource="@array/preloaded_fonts" />
 
         <activity
-            android:name=".patientActivities.PatientLogInActivity"
+            android:name=".PatientLogInActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".patientActivities.PatientHome"
+            android:name=".PatientHome"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".patientActivities.PatientSignUpActivity"
+            android:name=".PatientSignUpActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".MainActivity"
@@ -64,7 +64,7 @@
             android:name=".map.PharmaciesOnMapActivity"
             android:parentActivityName=".MainActivity" />
 
-        <receiver android:name=".timePicker.AlertReceiver" />
+        <receiver android:name=".medicineReminders.timePicker.AlertReceiver" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

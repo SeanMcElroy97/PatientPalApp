@@ -1,4 +1,4 @@
-package com.example.patientpal.patientActivities;
+package com.example.patientpal;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,21 +19,17 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.example.patientpal.MainActivity;
-import com.example.patientpal.R;
 import com.example.patientpal.adapters.PatientHomeAdapter;
 import com.example.patientpal.appointments.AppointmentsMainActivity;
 import com.example.patientpal.map.PharmaciesOnMapActivity;
+import com.example.patientpal.medicineReminders.MedicationReminderActivity;
 import com.example.patientpal.medicineReminders.MedicineReminderMainActivity;
 import com.example.patientpal.model.Appointment;
 import com.example.patientpal.model.LocationCovidStats;
 import com.example.patientpal.model.PatientMenuItem;
-import com.example.patientpal.patientActivities.covidActivities.CovidMainActivity;
+import com.example.patientpal.covidActivities.CovidMainActivity;
 import com.example.patientpal.prescription.PrescriptionHomeActivity;
 import com.example.patientpal.services.VolleySingletonRequestQueue;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 import org.json.JSONArray;
 import org.json.JSONException;

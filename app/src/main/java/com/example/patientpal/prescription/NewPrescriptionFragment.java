@@ -31,6 +31,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.patientpal.R;
 import com.example.patientpal.model.Prescription;
@@ -42,6 +43,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.google.gson.JsonObject;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -51,8 +53,11 @@ import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.UUID;
+
+import static android.media.CamcorderProfile.get;
 
 public class NewPrescriptionFragment extends Fragment{
 
@@ -77,8 +82,9 @@ public class NewPrescriptionFragment extends Fragment{
     //Firebase Storage
     private StorageReference mStorageRef;
 
-    private static final String[] pharmaciesAvailable = new String[]{ "Joes Pharmacy", "McElroys Pharmacy", "Your Local Pharmacies", "Bobs Pharmacy", "Boots", "Jockos Pharmacy", "Macho Meds Pharm", "Snake oil supplies"};
+//    private static final String[] pharmaciesAvailable = new String[]{ "Joes Pharmacy", "McElroys Pharmacy", "Your Local Pharmacies", "Bobs Pharmacy", "Boots", "Jockos Pharmacy", "Macho Meds Pharm", "Snake oil supplies"};
 
+        private ArrayList<String> mPharmaciesAvailableStr = new ArrayList<>();
 
     @Nullable
     @Override
@@ -95,8 +101,11 @@ public class NewPrescriptionFragment extends Fragment{
         retryButton.setVisibility(View.GONE);
         sendButton = v.findViewById(R.id.sendPrescriptionBtnView);
 
-        //Probably be of pharmacy objects
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, pharmaciesAvailable);
+
+
+        //Set Pharmacy
+        fetchAvailablePharmacies();
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, mPharmaciesAvailableStr);
         autoTextPharmacy.setAdapter(adapter);
 
 
@@ -143,6 +152,33 @@ public class NewPrescriptionFragment extends Fragment{
         return v;
     }
 
+
+    public void fetchAvailablePharmacies(){
+        mRequestQueue = VolleySingletonRequestQueue.getInstance(getContext()).getRequestQueue();
+
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, getString(R.string.spring_boot_url) + "mobile/availablePharmacies", null, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+
+                try {
+                    for (int i = 0; i < response.length(); i++) {
+                        mPharmaciesAvailableStr.add(response.get(i).toString());
+                    }
+                }
+                catch (JSONException e) {
+
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+
+        mRequestQueue.add(jsonArrayRequest);
+    }
 
     ////Methods
     private void askCameraPermission() {
@@ -266,7 +302,7 @@ public class NewPrescriptionFragment extends Fragment{
         jsonBody.put("instructions", rx.getInstructions());
         jsonBody.put("prescriptionCreationTime", rx.getPrescriptionCreationTime());
         jsonBody.put("rxImageURI", rx.getPictureURL());
-
+        jsonBody.put("pharmacyNameOnRx", rx.getPharmacyNameStr());
 
         JsonObjectRequest jsonOBJReq = new JsonObjectRequest(Request.Method.POST, getString(R.string.spring_boot_url) + "mobile/prescriptionPost", jsonBody, new Response.Listener<JSONObject>() {
             @Override

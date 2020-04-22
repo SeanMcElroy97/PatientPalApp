@@ -1,11 +1,10 @@
-package com.example.patientpal.patientActivities.covidActivities;
+package com.example.patientpal.covidActivities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.TextView;
 
 import com.example.patientpal.R;
 import com.example.patientpal.model.LocationCovidStats;

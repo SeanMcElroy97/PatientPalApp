@@ -8,16 +8,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.patientpal.R;
 import com.example.patientpal.model.CountryCovidStats;
-import com.example.patientpal.model.PatientMenuItem;
-import com.example.patientpal.patientActivities.PatientHome;
-import com.example.patientpal.patientActivities.covidActivities.CovidMainActivity;
 import com.squareup.picasso.Picasso;
 
 import java.text.DecimalFormat;

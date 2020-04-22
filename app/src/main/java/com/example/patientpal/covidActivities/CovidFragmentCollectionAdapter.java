@@ -1,4 +1,4 @@
-package com.example.patientpal.patientActivities.covidActivities;
+package com.example.patientpal.covidActivities;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -8,12 +8,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.example.patientpal.R;
 import com.example.patientpal.model.CountryCovidStats;
 import com.example.patientpal.model.LocationCovidStats;
@@ -22,13 +16,9 @@ import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.Reader;
-import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;

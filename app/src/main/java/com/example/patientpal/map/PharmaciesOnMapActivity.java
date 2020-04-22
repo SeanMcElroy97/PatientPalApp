@@ -8,6 +8,10 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.SeekBar;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
@@ -31,10 +35,18 @@ import maes.tech.intentanim.CustomIntent;
 
 public class PharmaciesOnMapActivity extends FragmentActivity implements OnMapReadyCallback {
 
+
+    private SupportMapFragment mapFragment;
+
     private GoogleMap mMap;
     private FusedLocationProviderClient fusedLocationProviderClient;
     private PlacesClient placesClient;
     private LocationRequest locationRequest;
+    private ImageView mLogo;
+
+    private TextView mRadiusText;
+    private SeekBar mRadiusSeekBar;
+    private int mRadiusInMeters;
 
 
     private double latitude,longitude;
@@ -45,17 +57,45 @@ public class PharmaciesOnMapActivity extends FragmentActivity implements OnMapRe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pharmacieson_map);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
+        mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
+        mLogo = findViewById(R.id.logo);
+        mLogo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
-        Toolbar tbar = findViewById(R.id.ToolbarForMappy);
-        setActionBar(tbar);
-        getActionBar().setDisplayHomeAsUpEnabled(true);
-        getActionBar().setDisplayShowTitleEnabled(false);
+
+        mRadiusText = findViewById(R.id.radiusText);
 
 
+        mRadiusSeekBar = findViewById(R.id.radiusSeekBar);
+        mRadiusSeekBar.setProgress(2);
+
+        mRadiusInMeters = mRadiusSeekBar.getProgress() * 1000;
+
+        mRadiusText.setText(mRadiusSeekBar.getProgress() + " km");
+
+        mRadiusSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                mRadiusText.setText(i + " km");
+
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                onMapReady(mMap);
+            }
+        });
 
 
 
@@ -81,22 +121,19 @@ public class PharmaciesOnMapActivity extends FragmentActivity implements OnMapRe
     }
 
 
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
     @Override
     public void onMapReady(GoogleMap googleMap) {
 
-        this.mMap = googleMap;
+        mMap = googleMap;
         final MarkerOptions markerOptions = new MarkerOptions();
 
+        getLastLocation();
 
+
+
+    }
+
+    public void getLastLocation(){
         fusedLocationProviderClient.getLastLocation()
                 .addOnSuccessListener(this, new OnSuccessListener<Location>() {
                     @Override
@@ -104,16 +141,16 @@ public class PharmaciesOnMapActivity extends FragmentActivity implements OnMapRe
                         // Got last known location. In some rare situations this can be null.
                         if (location != null) {
                             // Logic to handle location object
-                            double lat = location.getLatitude();
-                            double lng = location.getLongitude();
-                            LatLng latLng = new LatLng(lat, lng);
+                            latitude = location.getLatitude();
+                            longitude = location.getLongitude();
+                            LatLng latLng = new LatLng(latitude, longitude);
                             mMap.setMyLocationEnabled(true);
                             mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
                             //markerOptions.position(latLng);
                             // mMap.addMarker(markerOptions);
 
-                            String url = getUrl(lat, lng, "pharmacy");
-                            System.out.println(url);
+                            String url = getUrl(latitude, longitude, "pharmacy");
+                            //System.out.println(url);
 
                             Object dataTransfer[] = new Object[2];
                             dataTransfer[0] = mMap;
@@ -124,15 +161,14 @@ public class PharmaciesOnMapActivity extends FragmentActivity implements OnMapRe
                         }
                     }
                 });
-
-
     }
 
 
     private String getUrl(double latitude, double longitude, String nearByPharmacy){
         StringBuilder googlePlaceUrl = new StringBuilder("https://maps.googleapis.com/maps/api/place/nearbysearch/json?");
         googlePlaceUrl.append("location="+latitude+","+longitude);
-        googlePlaceUrl.append("&radius="+5000);
+//        googlePlaceUrl.append("&radius="+5000);
+        googlePlaceUrl.append("&radius="+mRadiusInMeters);
         googlePlaceUrl.append("&type="+nearByPharmacy);
         googlePlaceUrl.append("&key="+"AIzaSyC8X9WyCq4kPtjRdrWHf4zdnhJfJcQG0mI");
         //System.out.println("Toby Maguire");

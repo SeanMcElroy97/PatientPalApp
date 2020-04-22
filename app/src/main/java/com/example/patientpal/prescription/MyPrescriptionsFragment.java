@@ -1,12 +1,9 @@
 package com.example.patientpal.prescription;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,10 +20,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.example.patientpal.R;
 import com.example.patientpal.adapters.PrescriptionListAdapter;
-import com.example.patientpal.model.LocationCovidStats;
 import com.example.patientpal.model.Prescription;
-import com.example.patientpal.patientActivities.PatientHome;
-import com.example.patientpal.patientActivities.covidActivities.CovidMainActivity;
 import com.example.patientpal.services.VolleySingletonRequestQueue;
 
 import org.json.JSONArray;
@@ -34,8 +28,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-
-import maes.tech.intentanim.CustomIntent;
 
 public class MyPrescriptionsFragment extends Fragment {
 
@@ -53,7 +45,7 @@ public class MyPrescriptionsFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        
+
 
         callPrescriptionsAPI();
 

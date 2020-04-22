@@ -1,4 +1,4 @@
-package com.example.patientpal.timePicker;
+package com.example.patientpal.medicineReminders.timePicker;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

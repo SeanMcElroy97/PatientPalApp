@@ -1,4 +1,4 @@
-package com.example.patientpal.patientActivities.covidActivities;
+package com.example.patientpal.covidActivities;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
