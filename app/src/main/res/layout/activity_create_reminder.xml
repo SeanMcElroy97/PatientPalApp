@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".medicineReminders.CreateReminderActivity"
+    android:background="@color/lightGrey">
+
+    <ImageView
+        android:id="@+id/ButtonLogo"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:background="@color/transparent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/patient_pal_logo" />
+
+    <TextView
+        android:id="@+id/CreateReminderTextV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="30dp"
+        android:layout_toEndOf="@+id/ButtonLogo"
+        android:background="#00FFFFFF"
+        android:fontFamily="@font/average"
+        android:text="Create Reminder"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textColor="#7FD858"
+        android:textSize="28sp"
+        android:textStyle="bold" />
+
+
+
+    <RelativeLayout
+        android:background="#fff"
+        android:layout_width="match_parent"
+        android:layout_height="669dp"
+        android:layout_marginTop="116dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/CreateReminderTextV"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="25dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="Medication Name"
+                android:textColor="@color/quantum_black_text"/>
+
+
+
+            <AutoCompleteTextView
+                android:id="@+id/autoCompleteMedicationName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:completionThreshold="1"
+                android:hint="Enter Medication"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"/>
+
+<!--            <TextView-->
+<!--                android:layout_marginTop="35dp"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_gravity="center_horizontal"-->
+<!--                android:textColor="@color/quantum_black_text"-->
+<!--                android:text="Time of Reminder" />-->
+
+            <TextView
+                android:id="@+id/ReminderTimeTexttxtView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="Reminder Time"
+                android:textColor="@color/quantum_black_text"/>
+
+            <Button
+                android:id="@+id/openTimePickerBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:layout_gravity="center_horizontal"
+                android:text="  Add a reminder time"
+                android:textSize="18sp"
+                android:drawableLeft="@drawable/ic_add_alarm_black_24dp"
+                android:background="@color/ButtonGreen"
+                android:padding="16dp"/>
+
+
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</RelativeLayout>

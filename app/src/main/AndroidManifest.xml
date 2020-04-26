@@ -21,12 +21,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".appointments.AppointmentsMainActivity"></activity>
+        <activity android:name=".medicineReminders.CreateReminderActivity"></activity>
+        <activity android:name=".appointments.AppointmentsMainActivity" />
         <activity android:name=".covidActivities.CovidMainActivity" />
         <activity android:name=".prescription.PrescriptionHomeActivity" />
-        <activity android:name=".medicineReminders.AddReminderActivity" />
+        <activity android:name=".oldMedicineReminders.AddReminderActivity" />
         <activity android:name=".medicineReminders.MedicineReminderMainActivity" />
-        <activity android:name=".medicineReminders.MedicationReminderActivity" />
+        <activity android:name=".oldMedicineReminders.MedicationReminderActivity" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -64,7 +65,7 @@
             android:name=".map.PharmaciesOnMapActivity"
             android:parentActivityName=".MainActivity" />
 
-        <receiver android:name=".medicineReminders.timePicker.AlertReceiver" />
+        <receiver android:name=".oldMedicineReminders.timePicker.AlertReceiver" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

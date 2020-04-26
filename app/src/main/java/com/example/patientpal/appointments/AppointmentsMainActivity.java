@@ -57,6 +57,8 @@ public class AppointmentsMainActivity extends AppCompatActivity implements Creat
 
     RequestQueue mRequestQueue;
 
+    FloatingActionButton mFab;
+
     //Methods
 
     @Override
@@ -97,6 +99,13 @@ public class AppointmentsMainActivity extends AppCompatActivity implements Creat
                 //pass arraylist of appointments
                     setupRecyclerView(dateClicked);
 
+                    if(mselectedDate.getDate()<new Date().getDate()){
+
+                        mFab.setVisibility(View.GONE);
+                    }else{
+                        mFab.setVisibility(View.VISIBLE);
+                    }
+
 
             }
 
@@ -109,8 +118,8 @@ public class AppointmentsMainActivity extends AppCompatActivity implements Creat
         });
 
 
-        FloatingActionButton fab = findViewById(R.id.addAppointmentFAB);
-        fab.setOnClickListener(new View.OnClickListener() {
+        mFab = findViewById(R.id.addAppointmentFAB);
+        mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 

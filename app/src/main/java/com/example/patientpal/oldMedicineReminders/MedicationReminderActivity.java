@@ -1,4 +1,4 @@
-package com.example.patientpal.medicineReminders;
+package com.example.patientpal.oldMedicineReminders;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
@@ -16,9 +16,9 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.example.patientpal.R;
-import com.example.patientpal.medicineReminders.timePicker.AlertReceiver;
-import com.example.patientpal.medicineReminders.timePicker.NotificationHelper;
-import com.example.patientpal.medicineReminders.timePicker.TimePickerFragment;
+import com.example.patientpal.oldMedicineReminders.timePicker.AlertReceiver;
+import com.example.patientpal.oldMedicineReminders.timePicker.NotificationHelper;
+import com.example.patientpal.oldMedicineReminders.timePicker.TimePickerFragment;
 
 import java.util.ArrayList;
 import java.util.Calendar;

@@ -1,4 +1,4 @@
-package com.example.patientpal.medicineReminders;
+package com.example.patientpal.oldMedicineReminders;
 
 import androidx.appcompat.app.AppCompatActivity;
 

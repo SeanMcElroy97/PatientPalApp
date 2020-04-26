@@ -8,7 +8,8 @@
     <color name="transparent">#00FFFFFF</color>
     <color name="darkblue">#2F333F</color>
     <color name="coolGreen">#ABFFC0</color>
-    <color name="lightGrey">#f2f2f2</color>
+<!--    <color name="lightGrey">#f2f2f2</color>-->
+    <color name="lightGrey">#e3ede1</color>
     <color name="pink">#ff6eec</color>
     <color name="red">#FF0000</color>
     <color name="success_green">#22bb33</color>

@@ -1,4 +1,4 @@
-package com.example.patientpal.medicineReminders.timePicker;
+package com.example.patientpal.oldMedicineReminders.timePicker;
 
 import android.app.Dialog;
 import android.app.TimePickerDialog;

@@ -50,6 +50,16 @@
         android:textSize="20sp"
         android:textStyle="bold" />
 
+    <View
+        android:layout_width="213dp"
+        android:layout_height="2dp"
+        android:layout_below="@+id/patientHomeTxt"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="80dp"
+        android:layout_marginTop="26.5dp"
+        android:layout_marginEnd="17dp"
+        android:background="#59e5fbe5" />
+
     <androidx.appcompat.widget.AppCompatSeekBar
         android:id="@+id/radiusSeekBar"
         android:layout_width="250dp"

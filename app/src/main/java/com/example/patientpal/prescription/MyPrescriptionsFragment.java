@@ -101,6 +101,8 @@ public class MyPrescriptionsFragment extends Fragment {
                            prescription.setStatus(JSONprescriptionOBJ.getString("status"));
 
                            mPrescriptions.add(prescription);
+
+
                        }
 
                        updateRecyclerView(mPrescriptions);

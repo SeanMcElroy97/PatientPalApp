@@ -22,7 +22,7 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.example.patientpal.adapters.PatientHomeAdapter;
 import com.example.patientpal.appointments.AppointmentsMainActivity;
 import com.example.patientpal.map.PharmaciesOnMapActivity;
-import com.example.patientpal.medicineReminders.MedicationReminderActivity;
+import com.example.patientpal.oldMedicineReminders.MedicationReminderActivity;
 import com.example.patientpal.medicineReminders.MedicineReminderMainActivity;
 import com.example.patientpal.model.Appointment;
 import com.example.patientpal.model.LocationCovidStats;

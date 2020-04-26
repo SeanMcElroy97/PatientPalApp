@@ -1,20 +1,20 @@
 package com.example.patientpal.medicineReminders;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.loader.app.LoaderManager;
 
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Toast;
 
 import com.example.patientpal.R;
+import com.example.patientpal.oldMedicineReminders.AddReminderActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import maes.tech.intentanim.CustomIntent;
 
 public class MedicineReminderMainActivity extends AppCompatActivity {
+
+
 
 
     @Override
@@ -27,10 +27,15 @@ public class MedicineReminderMainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 //                Toast.makeText(MedicineReminderMainActivity.this, "Floating Button Clicked", Toast.LENGTH_LONG).show();
-                Intent i = new Intent(MedicineReminderMainActivity.this, AddReminderActivity.class);
-                startActivity(i);
+                startCreateReminderActivity();
             }
         });
+    }
+
+    public void startCreateReminderActivity(){
+        Intent i = new Intent(MedicineReminderMainActivity.this, CreateReminderActivity.class);
+        startActivity(i);
+        CustomIntent.customType(this, "left-to-right");
     }
 
     public void finish(){
