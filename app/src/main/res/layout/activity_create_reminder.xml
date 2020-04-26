@@ -51,8 +51,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/CreateReminderTextV"
+            android:layout_height="match_parent"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="25dp"
             android:orientation="vertical">
@@ -62,6 +61,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:text="Medication Name"
+                android:textSize="16sp"
                 android:textColor="@color/quantum_black_text"/>
 
 
@@ -70,7 +70,7 @@
                 android:id="@+id/autoCompleteMedicationName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:completionThreshold="1"
                 android:hint="Enter Medication"
                 android:layout_marginStart="5dp"
@@ -84,13 +84,7 @@
 <!--                android:textColor="@color/quantum_black_text"-->
 <!--                android:text="Time of Reminder" />-->
 
-            <TextView
-                android:id="@+id/ReminderTimeTexttxtView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:text="Reminder Time"
-                android:textColor="@color/quantum_black_text"/>
+
 
             <Button
                 android:id="@+id/openTimePickerBtn"
@@ -100,11 +94,120 @@
                 android:layout_gravity="center_horizontal"
                 android:text="  Add a reminder time"
                 android:textSize="18sp"
+                android:textColor="@color/white"
                 android:drawableLeft="@drawable/ic_add_alarm_black_24dp"
                 android:background="@color/ButtonGreen"
                 android:padding="16dp"/>
 
+            <TextView
+                android:id="@+id/ReminderTimeTexttxtView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:textSize="16sp"
+                android:text="Reminder Time"
+                android:layout_marginTop="40dp"
+                android:textColor="@color/quantum_black_text"/>
 
+            <TextView
+                android:id="@+id/ReminderTimeValueTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="09 : 00"
+                android:layout_marginTop="20dp"
+                android:textSize="32sp"
+                android:textColor="@color/quantum_black_text"/>
+
+
+<!--            <TextView-->
+<!--                android:id="@+id/RepeatReminderTextView"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_gravity="center_horizontal"-->
+<!--                android:text="Repeat Reminder"-->
+<!--                android:layout_marginTop="40dp"-->
+<!--                android:textColor="@color/quantum_black_text"/>-->
+
+            <LinearLayout
+                android:layout_marginTop="70dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                >
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/repeatDaysYesNo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="Repeat Days   "
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:textOff="NO"
+                    android:textOn="Yes"
+                    android:layout_gravity="center_vertical"
+                    android:thumb="@drawable/repeat_days_thumb"
+                    app:track="@drawable/repeat_days_track"
+                    app:showText="true"/>
+
+                <LinearLayout
+                    android:id="@+id/layoutRepeatDays"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginLeft="50dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="16sp"
+                        android:textColor="@color/quantum_black_text"
+                        android:text="Days"
+                        android:layout_gravity="center_horizontal"/>
+<!--                    <NumberPicker-->
+<!--                        android:id="@+id/numberOfRepeatDays"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_gravity="center_vertical"-->
+<!--                        android:layout_height="60dp"-->
+<!--                        android:layout_marginTop="7dp"-->
+<!--                        app:internalMaxHeight="100dp"-->
+<!--                        android:selectionDividersDistance="30dp"-->
+<!--                        />-->
+
+                    <com.shawnlin.numberpicker.NumberPicker
+                        android:id="@+id/day_number_picker"
+                        android:layout_marginTop="10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        app:np_orientation="horizontal"
+                        app:np_width="180dp"
+                        app:np_height="64dp"
+                        app:np_dividerColor="@color/DarkGreen"
+                        app:np_selectedTextColor="@color/quantum_black_text"
+                        app:np_selectedTextUnderline="true"
+                        app:np_max="365"
+                        app:np_min="2"
+                        app:np_textSize="16sp"
+                        app:np_textColor="@color/colorPrimary"
+                        app:np_value="2" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/createReminderBTN"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="60dp"
+                android:layout_gravity="center_horizontal"
+                android:text="Set Reminder"
+                android:textSize="18sp"
+                android:textColor="@color/white"
+                android:background="@color/ButtonGreen"
+                android:padding="16dp"/>
 
         </LinearLayout>
 

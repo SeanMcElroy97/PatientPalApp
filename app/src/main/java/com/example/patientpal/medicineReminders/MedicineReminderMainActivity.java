@@ -7,14 +7,18 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.example.patientpal.R;
+import com.example.patientpal.model.Reminder;
 import com.example.patientpal.oldMedicineReminders.AddReminderActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.util.ArrayList;
 
 import maes.tech.intentanim.CustomIntent;
 
 public class MedicineReminderMainActivity extends AppCompatActivity {
 
 
+    private ArrayList<Reminder> myReminders;
 
 
     @Override

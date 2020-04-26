@@ -4,24 +4,44 @@ import java.util.List;
 
 public class Reminder {
 
-    private String medicationName;
+
+    private int reminderID;
+
+    private String reminderMedicationName;
     //Could search from autocomplete medicine. not definte
 
     private List<Long> reminderTimes;
 
-    private Long initialReminderTime;
+    private String reminderTimeDisplay;
 
-    private int duration;
+    private int reminderDuration;
+    private int reminderDaysRemaining;
 
-    private int daysRemaining;
 
-
-    public String getMedicationName() {
-        return medicationName;
+    public Reminder(String reminderMedicationName, List<Long> reminderTimes, String reminderTimeDisplay, int reminderDuration, int reminderDaysRemaining) {
+        this.reminderMedicationName = reminderMedicationName;
+        this.reminderTimes = reminderTimes;
+        this.reminderTimeDisplay = reminderTimeDisplay;
+        this.reminderDuration = reminderDuration;
+        this.reminderDaysRemaining = reminderDaysRemaining;
     }
 
-    public void setMedicationName(String medicationName) {
-        this.medicationName = medicationName;
+
+
+    public int getReminderID() {
+        return reminderID;
+    }
+
+    public void setReminderID(int reminderID) {
+        this.reminderID = reminderID;
+    }
+
+    public String getReminderMedicationName() {
+        return reminderMedicationName;
+    }
+
+    public void setReminderMedicationName(String reminderMedicationName) {
+        this.reminderMedicationName = reminderMedicationName;
     }
 
     public List<Long> getReminderTimes() {
@@ -32,27 +52,40 @@ public class Reminder {
         this.reminderTimes = reminderTimes;
     }
 
-    public Long getInitialReminderTime() {
-        return initialReminderTime;
+    public String getReminderTimeDisplay() {
+        return reminderTimeDisplay;
     }
 
-    public void setInitialReminderTime(Long initialReminderTime) {
-        this.initialReminderTime = initialReminderTime;
+    public void setReminderTimeDisplay(String reminderTimeDisplay) {
+        this.reminderTimeDisplay = reminderTimeDisplay;
     }
 
-    public int getDuration() {
-        return duration;
+    public int getReminderDuration() {
+        return reminderDuration;
     }
 
-    public void setDuration(int duration) {
-        this.duration = duration;
+    public void setReminderDuration(int reminderDuration) {
+        this.reminderDuration = reminderDuration;
     }
 
-    public int getDaysRemaining() {
-        return daysRemaining;
+    public int getReminderDaysRemaining() {
+        return reminderDaysRemaining;
     }
 
-    public void setDaysRemaining(int daysRemaining) {
-        this.daysRemaining = daysRemaining;
+    public void setReminderDaysRemaining(int reminderDaysRemaining) {
+        this.reminderDaysRemaining = reminderDaysRemaining;
+    }
+
+
+    @Override
+    public String toString() {
+        return "Reminder{" +
+                "reminderID=" + reminderID +
+                ", reminderMedicationName='" + reminderMedicationName + '\'' +
+                ", reminderTimes=" + reminderTimes +
+                ", reminderTimeDisplay='" + reminderTimeDisplay + '\'' +
+                ", reminderDuration=" + reminderDuration +
+                ", reminderDaysRemaining=" + reminderDaysRemaining +
+                '}';
     }
 }

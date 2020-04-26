@@ -80,5 +80,9 @@ dependencies {
     //Compact Calendar v
     implementation 'com.github.sundeepk:compact-calendar-view:3.0.0'
 
+
+    //Number Pick Shaun
+    implementation 'com.shawnlin:number-picker:2.4.9'
+
 }
 apply plugin: 'com.google.gms.google-services'
