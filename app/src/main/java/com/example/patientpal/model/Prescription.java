@@ -8,11 +8,13 @@ public class Prescription {
 
     int prescriptionID;
     Map<String, Integer> medItems;
-    String instructions;
+    String patientMessage;
     String pharmacyNameStr;
     String status;
     String pictureURL;
     Long prescriptionCreationTime;
+    Long prescriptionFulfillmentTime =0L;
+    String Doctor;
 
 
     public Prescription() {
@@ -35,13 +37,6 @@ public class Prescription {
         this.medItems = medItems;
     }
 
-    public String getInstructions() {
-        return instructions;
-    }
-
-    public void setInstructions(String instructions) {
-        this.instructions = instructions;
-    }
 
     public String getStatus() {
         return status;
@@ -77,5 +72,29 @@ public class Prescription {
 
     public void setPharmacyNameStr(String pharmacyNameStr) {
         this.pharmacyNameStr = pharmacyNameStr;
+    }
+
+    public String getPatientMessage() {
+        return patientMessage;
+    }
+
+    public void setPatientMessage(String patientMessage) {
+        this.patientMessage = patientMessage;
+    }
+
+    public Long getPrescriptionFulfillmentTime() {
+        return prescriptionFulfillmentTime;
+    }
+
+    public void setPrescriptionFulfillmentTime(Long prescriptionFulfillmentTime) {
+        this.prescriptionFulfillmentTime = prescriptionFulfillmentTime;
+    }
+
+    public String getDoctor() {
+        return Doctor;
+    }
+
+    public void setDoctor(String doctor) {
+        Doctor = doctor;
     }
 }

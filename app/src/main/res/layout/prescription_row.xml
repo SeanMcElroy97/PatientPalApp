@@ -1,61 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="15dp"
-    android:layout_marginLeft="5dp"
-    android:layout_marginTop="15dp"
-    android:id="@+id/country_item">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/tools"
+    app:cardCornerRadius="9dp"
+    android:layout_margin="10dp"
+    android:layout_marginBottom="16dp"
+    android:id="@+id/prescriptionCardView"
+    card_view:cardElevation="5dp"
+    card_view:cardUseCompatPadding="true"
+    >
 
-
-    <ImageView
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginLeft="10dp"
-        android:layout_gravity="center_vertical"
-        android:src="@drawable/circle_green"
-        android:id="@+id/status_circle_icon"/>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="75dp"
-        android:orientation="vertical"
-        android:layout_gravity="center_vertical"
-        android:layout_marginLeft="20dp">
-        <TextView
+            <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="PID"
-            android:textColor="#000"
-            android:textStyle="bold"
-            android:layout_margin="5dp"
-            android:textSize="25sp"
-            android:id="@+id/prescription_row_text"
-            />
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Prescription Status"
-                android:textColor="#a9a9a9"
-                android:textStyle="bold"
-                android:textSize="10sp"
-                android:id="@+id/status_text"
-                />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="StatusX"
-                android:textColor="@color/red"
-                android:textStyle="bold"
-                android:textSize="10sp"
-                android:id="@+id/status_val"
-                />
-        </LinearLayout>
-    </LinearLayout>
+            android:layout_height="match_parent"
+                android:background="@color/transparent"
+            >
 
-</LinearLayout>
+
+                <TextView
+                    android:id="@+id/cardPrescriptionCreatedTxt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginStart="45dp"
+                    android:layout_marginTop="15dp"
+                    android:text="Created 16:40 28/4/20"
+                    android:textColor="@color/quantum_black_text"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:background="@color/transparent"/>
+
+                <TextView
+                    android:id="@+id/cardPrescriptionDispensedTxt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginStart="45dp"
+                    android:layout_marginTop="57dp"
+                    android:text="Dispensed 16:40 28/4/20"
+                    android:textColor="@color/quantum_black_text"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:background="@color/transparent"/>
+
+                <TextView
+                    android:id="@+id/cardPrescriptionStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginStart="45dp"
+                    android:layout_marginTop="99dp"
+                    android:text="Status Being Prepared"
+                    android:textColor="@color/quantum_black_text"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:background="@color/transparent"/>
+
+                <TextView
+                    android:id="@+id/cardPrescriptionPharmacyName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginStart="45dp"
+                    android:layout_marginTop="138dp"
+                    android:text="Pharmacy Name"
+                    android:textColor="@color/quantum_black_text"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:background="@color/transparent"/>
+
+            </RelativeLayout>
+
+
+
+</androidx.cardview.widget.CardView>

@@ -22,6 +22,7 @@ import com.example.patientpal.R;
 import com.example.patientpal.adapters.PrescriptionListAdapter;
 import com.example.patientpal.model.Prescription;
 import com.example.patientpal.services.VolleySingletonRequestQueue;
+import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -72,7 +73,7 @@ public class MyPrescriptionsFragment extends Fragment {
         //Set layout Manager
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         //Set Decorator
-        mRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
+//        mRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
 
 
 
@@ -85,21 +86,29 @@ public class MyPrescriptionsFragment extends Fragment {
 
         mRequestQueue = VolleySingletonRequestQueue.getInstance(getContext()).getRequestQueue();
         mPrescriptions = new ArrayList<>();
-           JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, getString(R.string.spring_boot_url) + "mobile/myprescriptions", null, new Response.Listener<JSONArray>() {
+           JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, getString(R.string.spring_boot_url) + "mobile/getMyPrescriptions", null, new Response.Listener<JSONArray>() {
 
 
                @Override
                public void onResponse(JSONArray response) {
 
                    try {
+                       System.out.println("prescription response length " + response.length());
                        for (int i = 0; i < response.length(); i++) {
 
                            JSONObject JSONprescriptionOBJ = response.getJSONObject(i);
 
                            Prescription prescription = new Prescription();
                            prescription.setPrescriptionID(Integer.parseInt(JSONprescriptionOBJ.getString("prescriptionID")));
-                           prescription.setStatus(JSONprescriptionOBJ.getString("status"));
-
+                           prescription.setStatus(JSONprescriptionOBJ.getString("prescriptionStatus"));
+                           prescription.setPrescriptionCreationTime(JSONprescriptionOBJ.getLong("prescriptionCreationDate"));
+                           if (JSONprescriptionOBJ.getLong("prescriptionFulfilmentDate")!=0){
+                               prescription.setPrescriptionFulfillmentTime(JSONprescriptionOBJ.getLong("prescriptionFulfilmentDate"));
+                           }
+                           prescription.setDoctor(JSONprescriptionOBJ.getString("doctor"));
+                           prescription.setPatientMessage(JSONprescriptionOBJ.getString("patientMessage"));
+//                           prescription.setPharmacyNameStr(JSONprescriptionOBJ.getString(@));
+                            //More prescription fields
                            mPrescriptions.add(prescription);
 
 
@@ -133,5 +142,6 @@ public class MyPrescriptionsFragment extends Fragment {
            //Set Adapter
 
        }
+
 
 }

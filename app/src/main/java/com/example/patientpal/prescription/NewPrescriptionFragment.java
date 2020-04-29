@@ -18,8 +18,6 @@ import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -43,7 +41,6 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -51,10 +48,7 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URI;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.UUID;
@@ -67,11 +61,11 @@ public class NewPrescriptionFragment extends Fragment{
     public static final int CAMERA_REQUEST_CODE = 102;
     public static final int GALLERY_REQUEST_CODE = 103;
 
-    private LinearLayout greyedOutBackground;
     private ImageButton takePictureBtn, choosePicFromGalleryBtn, retryButton, sendButton;
     private ImageView prescriptionImage;
     private AutoCompleteTextView autoTextPharmacy;
-    private EditText instructions;
+    private ArrayAdapter<String> mPharmacyNameArrayAdapter;
+    private EditText messageToPharmacy;
 
     private String mImageFileName;
     private Uri mContentURI;
@@ -82,14 +76,14 @@ public class NewPrescriptionFragment extends Fragment{
     String currentPhotoPath;
 
     //Post a prescription
-    ProgressBar mProgressBar;
+//    ProgressBar mProgressBar;
 
     //Firebase Storage
     private StorageReference mStorageRef;
 
 //    private static final String[] pharmaciesAvailable = new String[]{ "Joes Pharmacy", "McElroys Pharmacy", "Your Local Pharmacies", "Bobs Pharmacy", "Boots", "Jockos Pharmacy", "Macho Meds Pharm", "Snake oil supplies"};
 
-        private ArrayList<String> mPharmaciesAvailableStr = new ArrayList<>();
+        private ArrayList<String> mPharmaciesAvailableStrArray = new ArrayList<>();
 
     @Nullable
     @Override
@@ -113,8 +107,9 @@ public class NewPrescriptionFragment extends Fragment{
 
         //Set Pharmacy
         fetchAvailablePharmacies();
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, mPharmaciesAvailableStr);
-        autoTextPharmacy.setAdapter(adapter);
+
+        mPharmacyNameArrayAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_dropdown_item_1line, mPharmaciesAvailableStrArray);
+        autoTextPharmacy.setAdapter(mPharmacyNameArrayAdapter);
 
 
         takePictureBtn.setOnClickListener(new View.OnClickListener() {
@@ -157,7 +152,7 @@ public class NewPrescriptionFragment extends Fragment{
         });
 
 
-        instructions = v.findViewById(R.id.rxinstructions);
+        messageToPharmacy = v.findViewById(R.id.rxinstructions);
 
         //Instantaite the Storage reference
         mStorageRef = FirebaseStorage.getInstance().getReference();
@@ -174,7 +169,7 @@ public class NewPrescriptionFragment extends Fragment{
 
                 try {
                     for (int i = 0; i < response.length(); i++) {
-                        mPharmaciesAvailableStr.add(response.get(i).toString());
+                        mPharmaciesAvailableStrArray.add(response.get(i).toString());
                     }
                 }
                 catch (JSONException e) {
@@ -307,34 +302,45 @@ public class NewPrescriptionFragment extends Fragment{
 
         rx.setPharmacyNameStr(autoTextPharmacy.getText().toString());
         rx.setPictureURL(imagePathStr);
-        rx.setInstructions(instructions.getText().toString());
+        rx.setPatientMessage(messageToPharmacy.getText().toString());
         rx.setPrescriptionCreationTime(new Date().getTime());
 
         JSONObject jsonBody = new JSONObject();
 
-        jsonBody.put("instructions", rx.getInstructions());
-        jsonBody.put("prescriptionCreationTime", rx.getPrescriptionCreationTime());
-        jsonBody.put("rxImageURI", rx.getPictureURL());
-        jsonBody.put("pharmacyNameOnRx", rx.getPharmacyNameStr());
+        jsonBody.put("patientMessage", rx.getPatientMessage());
+        jsonBody.put("prescriptionCreationDate", rx.getPrescriptionCreationTime());
+        jsonBody.put("prescriptionImageURI", rx.getPictureURL());
+//        jsonBody.put("pharmacyNameOnRx", rx.getPharmacyNameStr());
 
-        JsonObjectRequest jsonOBJReq = new JsonObjectRequest(Request.Method.POST, getString(R.string.spring_boot_url) + "mobile/prescriptionPost", jsonBody, new Response.Listener<JSONObject>() {
+        JsonObjectRequest jsonOBJReq = new JsonObjectRequest(Request.Method.POST, getString(R.string.spring_boot_url) + "mobile/newPrescription/"+autoTextPharmacy.getText().toString() , jsonBody, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 Toast.makeText(getContext(), "Prescription Sent", Toast.LENGTH_SHORT).show();
-                mProgressBar.setVisibility(View.INVISIBLE);
-                greyedOutBackground.setVisibility(View.GONE);
+
+
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getContext(), "ERROR ->  "  + error.toString(), Toast.LENGTH_SHORT).show();
-                mProgressBar.setVisibility(View.INVISIBLE);
-                greyedOutBackground.setVisibility(View.GONE);
+                Toast.makeText(getContext(), "Prescription Sent", Toast.LENGTH_SHORT).show();
+
+
             }
         });
 
 
         mRequestQueue.add(jsonOBJReq);
+
+        //Test refresh
+        takePictureBtn.setVisibility(View.VISIBLE);
+        choosePicFromGalleryBtn.setVisibility(View.VISIBLE);
+        prescriptionImage.setVisibility(View.GONE);
+        autoTextPharmacy.setText("");
+        retryButton.setVisibility(View.GONE);
+        sendButton.setVisibility(View.GONE);
+        messageToPharmacy.setText("");
+
+        ((PrescriptionHomeActivity)getActivity()).setViewPager(2);
 
     }
 
@@ -342,11 +348,11 @@ public class NewPrescriptionFragment extends Fragment{
     public void uploadImageToStorage(){
 
 
-
-        if(mPharmaciesAvailableStr.contains(autoTextPharmacy.getText().toString())) {
+        System.out.println("Made it to upload image method");
+        if(mPharmaciesAvailableStrArray.contains(autoTextPharmacy.getText().toString())) {
             //Insert loading here
-            greyedOutBackground.setVisibility(View.VISIBLE);
-            mProgressBar.setVisibility(View.VISIBLE);
+            //greyedOutBackground.setVisibility(View.VISIBLE);
+//            mProgressBar.setVisibility(View.VISIBLE);
             final StorageReference storageRef = mStorageRef.child("prescriptionImages/" + UUID.randomUUID() + ".jpg");
 
             //Toast.makeText(getContext(), mContentURI.toString(), Toast.LENGTH_SHORT).show();
@@ -357,7 +363,7 @@ public class NewPrescriptionFragment extends Fragment{
                             storageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                 @Override
                                 public void onSuccess(Uri uri) {
-                                    Toast.makeText(getContext(), "Successful post to firebase" + uri.toString(), Toast.LENGTH_SHORT).show();
+                                    //Toast.makeText(getContext(), "Successful post to firebase" + uri.toString(), Toast.LENGTH_SHORT).show();
 
                                     try {
                                         postAPrescription(uri.toString());

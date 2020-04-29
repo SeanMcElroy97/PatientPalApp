@@ -162,7 +162,7 @@ public class PatientHome extends AppCompatActivity {
         mRequestQueue = VolleySingletonRequestQueue.getInstance(this).getRequestQueue();
         userAppointments = new ArrayList<>();
 
-        final JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, getString(R.string.spring_boot_url)+"/mobile/myAppointments", null, new Response.Listener<JSONArray>() {
+        final JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, getString(R.string.spring_boot_url)+"/mobile/getMyAppointments", null, new Response.Listener<JSONArray>() {
 
 
             @Override
@@ -174,6 +174,7 @@ public class PatientHome extends AppCompatActivity {
                         JSONObject appointmentJSONOBJ = response.getJSONObject(i);
 
                         Appointment appointment = new Appointment();
+                        appointment.setAppointmentID(appointmentJSONOBJ.getInt("appointmentId"));
                         appointment.setAppointmenttitle(appointmentJSONOBJ.getString("appointmenttitle"));
                         appointment.setAdditionalInfo(appointmentJSONOBJ.getString("additionalInfo"));
                         appointment.setTimeinMillis(appointmentJSONOBJ.getLong("timeinMillis"));

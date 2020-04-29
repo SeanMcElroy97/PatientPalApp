@@ -50,6 +50,8 @@ public class AppointmentsMainActivity extends AppCompatActivity implements Creat
     AppointmentListAdapter recViewAdapter;
     Date mselectedDate;
 
+    TextView mMonthAppointmentCountTextV;
+
     CreateAppointmentDialog appointmentDialog;
 
     RecyclerView apponintmentRecyclerView;
@@ -83,12 +85,10 @@ public class AppointmentsMainActivity extends AppCompatActivity implements Creat
 
         setUpCalendarEvents(allUserAppointments);
 
+        mMonthAppointmentCountTextV = findViewById(R.id.monthCountAppointments);
 
-//        //Set Doctors appointment 10th
-//        Event ev1 = new Event(Color.RED, 1586515338825L, "Going to get that thing checked out");
+        mMonthAppointmentCountTextV.setText(String.valueOf(mCompactCalendarView.getEventsForMonth(mselectedDate).size()));
 
-//
-//        mCompactCalendarView.addEvent(ev1);
 
         mCompactCalendarView.setListener(new CompactCalendarView.CompactCalendarViewListener() {
             @Override
@@ -99,10 +99,12 @@ public class AppointmentsMainActivity extends AppCompatActivity implements Creat
                 //pass arraylist of appointments
                     setupRecyclerView(dateClicked);
 
-                    if(mselectedDate.getDate()<new Date().getDate()){
+                    if(mselectedDate.getTime()< new Date().getTime()){
+
 
                         mFab.setVisibility(View.GONE);
                     }else{
+
                         mFab.setVisibility(View.VISIBLE);
                     }
 
@@ -113,6 +115,7 @@ public class AppointmentsMainActivity extends AppCompatActivity implements Creat
             public void onMonthScroll(Date firstDayOfNewMonth) {
                 mMonthTextView.setText(mdateFormat.format(firstDayOfNewMonth).toUpperCase());
                     setupRecyclerView(firstDayOfNewMonth);
+                mMonthAppointmentCountTextV.setText(String.valueOf(mCompactCalendarView.getEventsForMonth(firstDayOfNewMonth).size()));
 
             }
         });
@@ -212,7 +215,7 @@ public class AppointmentsMainActivity extends AppCompatActivity implements Creat
             jsonBody.put("additionalInfo", a.getAdditionalInfo());
             jsonBody.put("timeinMillis", a.getTimeinMillis());
 
-             postAppointmentrequest = new JsonObjectRequest(Request.Method.POST, getString(R.string.spring_boot_url) + "/mobile/appointment/add", jsonBody, new Response.Listener<JSONObject>() {
+             postAppointmentrequest = new JsonObjectRequest(Request.Method.POST, getString(R.string.spring_boot_url) + "/mobile/createAppointment", jsonBody, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
 //                    Toast.makeText(getApplicationContext(), "Response:  " + response.toString(), Toast.LENGTH_SHORT).show();
@@ -229,7 +232,7 @@ public class AppointmentsMainActivity extends AppCompatActivity implements Creat
             //Toast.makeText(this, e.toString(), Toast.LENGTH_SHORT).show();
         }
 
-
+        mMonthAppointmentCountTextV.setText(String.valueOf(mCompactCalendarView.getEventsForMonth(mselectedDate).size()));
 
     }
 

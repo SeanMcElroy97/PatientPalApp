@@ -13,22 +13,34 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.example.patientpal.R;
+import com.example.patientpal.services.VolleySingletonRequestQueue;
 import com.shawnlin.numberpicker.NumberPicker;
+
+import org.json.JSONArray;
+import org.json.JSONException;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import maes.tech.intentanim.CustomIntent;
 
 public class CreateReminderActivity extends AppCompatActivity  implements ReminderTimePickerDialog.ReminderTimePickerDialogListener {
 
+    RequestQueue mRequestQueue;
     ImageView goBackButton;
 
     //Call API which checks medication Names
-    private String [] mMedicationNamesAvailable = new String[]{"solpadine", "calpol", "lempsip", "loratex"};
+    private List<String> mMedicationNamesAvailable;
     private AutoCompleteTextView medicationNameAutoTxtV;
 
     Button openTimePickerButtion, submitBtn;
@@ -55,7 +67,10 @@ public class CreateReminderActivity extends AppCompatActivity  implements Remind
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_reminder);
 
+        //Autofill medication reminder
         medicationNameAutoTxtV = findViewById(R.id.autoCompleteMedicationName);
+        mMedicationNamesAvailable = new ArrayList<>();
+        fetchAvailableMedicines();
         ArrayAdapter<String> medNameAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, mMedicationNamesAvailable);
         medicationNameAutoTxtV.setAdapter(medNameAdapter);
 
@@ -142,7 +157,7 @@ public class CreateReminderActivity extends AppCompatActivity  implements Remind
         int duration =  (repeatYesNo.isChecked()) ? dayNumberPicker.getValue() : 1;
         int daysRemaining = duration;
         Long originalReminderTimeinMillis = null;
-//        List<Long> allReminders;
+        List<Long> reminderList = new ArrayList<Long>();
 
 
         Calendar cal = Calendar.getInstance();
@@ -155,15 +170,63 @@ public class CreateReminderActivity extends AppCompatActivity  implements Remind
         Date originalReminderDate = cal.getTime();
 
         //Working
-        Long originalReminderTime = (cal.getTimeInMillis() < new Date().getTime()) ? cal.getTimeInMillis()+86400000 : cal.getTimeInMillis();
+//        Long originalReminderTime = (cal.getTimeInMillis() < new Date().getTime()) ? cal.getTimeInMillis()+86400000 : cal.getTimeInMillis();
 
+        Long originalReminderTime;
+        if(cal.getTimeInMillis() < new Date().getTime()){
+            originalReminderTime = cal.getTimeInMillis()+86400000;
+            daysRemaining = duration+1;
+        }else {
+            originalReminderTime = cal.getTimeInMillis();
+        }
 //        Date firstReminderDate = new Date(originalReminderTime * 1000);
+
+
+        //All reminders
+        if(duration>1){
+
+            for(int i=0; i<duration; i++){
+                reminderList.add(originalReminderTime + (86400000)*(i));
+            }
+        }else {
+            reminderList.add(originalReminderTime);
+        }
 
 
 //        Toast.makeText(this, "Date is : " + originalReminderDate.getDate() + "  Time is " + originalReminderDate.getHours() + ":" + originalReminderDate.getMinutes(), Toast.LENGTH_SHORT).show();
 //        Toast.makeText(this, "Date is : " + firstReminderDate.getDate() + "  Time is " + firstReminderDate.getHours() + ":" + firstReminderDate.getMinutes(), Toast.LENGTH_SHORT).show();
         Toast.makeText(this, originalReminderTime.toString(), Toast.LENGTH_SHORT).show();
 
+        Toast.makeText(this, "Duration " + duration + "  " + " days remaining" + daysRemaining, Toast.LENGTH_SHORT).show();
 
+
+    }
+
+
+    public void fetchAvailableMedicines(){
+        mRequestQueue = VolleySingletonRequestQueue.getInstance(this).getRequestQueue();
+
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, getString(R.string.spring_boot_url) + "mobile/availableMedicineNames", null, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+
+                try {
+                    for (int i = 0; i < response.length(); i++) {
+                        mMedicationNamesAvailable.add(response.get(i).toString());
+                    }
+                }
+                catch (JSONException e) {
+
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+
+        mRequestQueue.add(jsonArrayRequest);
     }
 }

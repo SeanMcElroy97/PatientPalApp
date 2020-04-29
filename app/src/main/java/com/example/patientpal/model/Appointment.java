@@ -11,6 +11,7 @@ import java.util.Date;
 
 public class Appointment implements Parcelable {
 
+    private int appointmentID;
     private String appointmenttitle;
     private String additionalInfo;
     private Long timeinMillis;
@@ -26,6 +27,13 @@ public class Appointment implements Parcelable {
     }
 
 
+    public int getAppointmentID() {
+        return appointmentID;
+    }
+
+    public void setAppointmentID(int appointmentID) {
+        this.appointmentID = appointmentID;
+    }
 
     public String getAppointmenttitle() {
         return appointmenttitle;

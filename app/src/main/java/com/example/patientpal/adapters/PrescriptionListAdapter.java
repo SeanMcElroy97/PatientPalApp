@@ -10,12 +10,16 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.patientpal.R;
 import com.example.patientpal.model.Prescription;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class PrescriptionListAdapter extends RecyclerView.Adapter<PrescriptionListAdapter.ViewHolder> {
@@ -42,20 +46,42 @@ public class PrescriptionListAdapter extends RecyclerView.Adapter<PrescriptionLi
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.mPrescriptionID.setText(String.valueOf(mListOfPrescriptions.get(position).getPrescriptionID()) );
-        holder.mStatusValue.setText(mListOfPrescriptions.get(position).getStatus());
 
+        DateFormat df = new SimpleDateFormat("HH:mm dd/MM/y:");
+
+       Date creationDate = new Date(mListOfPrescriptions.get(position).getPrescriptionCreationTime());
+//        //Date fulfillmentDate = new Date(mListOfPrescriptions.get(position).getPrescriptionFulfillmentTime().longValue());
+//
+       holder.mCreationDate.setText("Created " +df.format(creationDate));
+////        holder.mFulfillmentDate.setText("Dispensed " +df.format(fulfillmentDate));
+       holder.mStatusValue.setText("Status " +mListOfPrescriptions.get(position).getStatus());
+       holder.mPharmacyName.setText(mListOfPrescriptions.get(position).getPharmacyNameStr());
 
             //holder.mStatusValue.setTextColor(ContextCompat.getColor(mContext, R.color.blue));
 
 
-        switch (mListOfPrescriptions.get(position).getStatus().toLowerCase()){
-            case "being prepared":
-                holder.mStatusValue.setTextColor(Color.BLUE);
+        switch (mListOfPrescriptions.get(position).getStatus().toLowerCase().replace(" ", "")){
+            case "submitted":
+//                holder.mStatusValue.setTextColor(Color.YELLOW);
+                holder.layoutCardView.setCardBackgroundColor(ContextCompat.getColor(mContext, R.color.lightGold));
                 break;
-            case"ready":
-                holder.mStatusValue.setTextColor(ContextCompat.getColor(mContext, R.color.DarkGreen));
+            case "beingprepared":
+//                holder.mStatusValue.setTextColor(Color.BLUE);
+                holder.layoutCardView.setCardBackgroundColor(ContextCompat.getColor(mContext, R.color.lightBlueCard));
                 break;
+            case "ready":
+//                holder.mStatusValue.setTextColor(ContextCompat.getColor(mContext, R.color.DarkGreen));
+                holder.layoutCardView.setCardBackgroundColor(ContextCompat.getColor(mContext, R.color.lightGreenCard));
+                break;
+            case "fulfilled":
+//                holder.mStatusValue.setTextColor(Color.GRAY);
+                holder.layoutCardView.setCardBackgroundColor(ContextCompat.getColor(mContext, R.color.lightPurpleGrey));
+                break;
+            case "cancelled":
+//                holder.mStatusValue.setTextColor(Color.RED);
+                holder.layoutCardView.setCardBackgroundColor(ContextCompat.getColor(mContext, R.color.lightRedCard));
+                break;
+
         }
 
 
@@ -69,16 +95,20 @@ public class PrescriptionListAdapter extends RecyclerView.Adapter<PrescriptionLi
 
     //Inner ViewHolder class
     public class ViewHolder extends RecyclerView.ViewHolder{
-        ImageView mImageView;
-        TextView mPrescriptionID;
+
+        TextView mCreationDate;
+        TextView mFulfillmentDate;
         TextView mStatusValue;
+        TextView mPharmacyName;
+        CardView layoutCardView;
 
         public ViewHolder(View itemView){
             super(itemView);
-            mPrescriptionID = itemView.findViewById(R.id.prescription_row_text);
-            mImageView = itemView.findViewById(R.id.status_circle_icon);
-            mStatusValue = itemView.findViewById(R.id.status_val);
-
+           mStatusValue = itemView.findViewById(R.id.cardPrescriptionStatus);
+            mCreationDate = itemView.findViewById(R.id.cardPrescriptionCreatedTxt);
+            mFulfillmentDate = itemView.findViewById(R.id.cardPrescriptionDispensedTxt);
+            mPharmacyName = itemView.findViewById(R.id.cardPrescriptionPharmacyName);
+                layoutCardView = itemView.findViewById(R.id.prescriptionCardView);
         }
 
 

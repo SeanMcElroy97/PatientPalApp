@@ -14,4 +14,12 @@
     <color name="red">#FF0000</color>
     <color name="success_green">#22bb33</color>
     <color name="blue">#5bc0de</color>
+
+
+<!--    Card colors-->
+    <color name="lightGold">#fcfbb3</color>
+    <color name="lightPurpleGrey">#e8e8e8</color>
+    <color name="lightGreenCard">#8aba82</color>
+    <color name="lightBlueCard">#8cb0b8</color>
+    <color name="lightRedCard">#b88c8c</color>
 </resources>
