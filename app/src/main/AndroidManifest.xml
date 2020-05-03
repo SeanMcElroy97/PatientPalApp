@@ -21,7 +21,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".medicineReminders.CreateReminderActivity"></activity>
+        <activity android:name=".prescription.SpecificPrescriptionActivity"></activity>
+        <activity android:name=".medicine.MedicineActivity" />
+        <activity android:name=".AboutActivityLoggedIn" />
+        <activity android:name=".medicineReminders.CreateReminderActivity" />
         <activity android:name=".appointments.AppointmentsMainActivity" />
         <activity android:name=".covidActivities.CovidMainActivity" />
         <activity android:name=".prescription.PrescriptionHomeActivity" />

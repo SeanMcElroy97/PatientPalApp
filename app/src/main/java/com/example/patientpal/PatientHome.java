@@ -22,6 +22,7 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.example.patientpal.adapters.PatientHomeAdapter;
 import com.example.patientpal.appointments.AppointmentsMainActivity;
 import com.example.patientpal.map.PharmaciesOnMapActivity;
+import com.example.patientpal.medicine.MedicineActivity;
 import com.example.patientpal.oldMedicineReminders.MedicationReminderActivity;
 import com.example.patientpal.medicineReminders.MedicineReminderMainActivity;
 import com.example.patientpal.model.Appointment;
@@ -70,7 +71,7 @@ public class PatientHome extends AppCompatActivity {
         //menu options
         menuItems = new ArrayList<>();
         menuItems.add(new PatientMenuItem(R.drawable.prescription, "Prescriptions", "Manage your prescriptions" ));
-        menuItems.add(new PatientMenuItem(R.drawable.reminder_bell_green, "Reminders", "Set medication Reminders" ));
+        menuItems.add(new PatientMenuItem(R.drawable.medicine, "Medicine", "See list of your medication" ));
         menuItems.add(new PatientMenuItem(R.drawable.appointment_icon, "Appointments", "Schedule Appointments" ));
         menuItems.add(new PatientMenuItem(R.drawable.cross_location, "Nearby Pharmacies", "Show close by pharmacies" ));
         menuItems.add(new PatientMenuItem(R.drawable.virus_logo, "COVID-19", "Latest stats and information"));
@@ -139,8 +140,8 @@ public class PatientHome extends AppCompatActivity {
         }
     }
 
-    public void gotoReminderActivity(View v){
-        Intent intentito = new Intent(this, MedicineReminderMainActivity.class);
+    public void goToMedicinesActivity(View v){
+        Intent intentito = new Intent(this, MedicineActivity.class);
         startActivity(intentito);
         CustomIntent.customType(this, "left-to-right");
     }
@@ -205,6 +206,12 @@ public class PatientHome extends AppCompatActivity {
 
     }
 
+
+    public void goToAboutActivity(View v){
+        Intent intentToAboutActivity = new Intent(this, AboutActivityLoggedIn.class);
+        startActivity(intentToAboutActivity);
+        CustomIntent.customType(this, "left-to-right");
+    }
     public void signOut(View v){
 
         //mAuth.signOut();

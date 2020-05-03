@@ -239,6 +239,8 @@ public class NewPrescriptionFragment extends Fragment{
 
                 takePictureBtn.setVisibility(View.GONE);
                 choosePicFromGalleryBtn.setVisibility(View.GONE);
+                retryButton.setVisibility(View.VISIBLE);
+                sendButton.setVisibility(View.VISIBLE);
             }
         }
     }

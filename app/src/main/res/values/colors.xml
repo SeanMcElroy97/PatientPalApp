@@ -17,9 +17,16 @@
 
 
 <!--    Card colors-->
-    <color name="lightGold">#fcfbb3</color>
-    <color name="lightPurpleGrey">#e8e8e8</color>
-    <color name="lightGreenCard">#8aba82</color>
-    <color name="lightBlueCard">#8cb0b8</color>
+    <color name="lightGold">#f0ad4e</color>
+    <color name="lightPurpleGrey">#9b9a9e</color>
+    <color name="lightGreenCard">#5cb85c</color>
+    <color name="lightBlueCard">#4c9ce0</color>
     <color name="lightRedCard">#b88c8c</color>
+
+<!--    Prescription colors-->
+    <color name="verylightGold">#fae6c8</color>
+    <color name="verylightPurpleGrey">#dedae0</color>
+    <color name="verylightGreen">#defad9</color>
+    <color name="verylightBlue">#d9ebfa</color>
+    <color name="verylightRed">#e09f9f</color>
 </resources>

@@ -12,70 +12,56 @@
     card_view:cardUseCompatPadding="true"
     >
 
-            <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-                android:background="@color/transparent"
-            >
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="153dp"
+        android:background="@color/transparent">
 
 
-                <TextView
-                    android:id="@+id/cardPrescriptionCreatedTxt"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentTop="true"
-                    android:layout_marginStart="45dp"
-                    android:layout_marginTop="15dp"
-                    android:text="Created 16:40 28/4/20"
-                    android:textColor="@color/quantum_black_text"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    android:background="@color/transparent"/>
+        <TextView
+            android:id="@+id/latestprescriptionDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="45dp"
+            android:layout_marginTop="15dp"
+            android:background="@color/transparent"
+            android:text="Created 16:40 28/4/20"
+            android:textColor="@color/quantum_black_text"
+            android:textSize="20sp"
+            android:textStyle="normal" />
 
-                <TextView
-                    android:id="@+id/cardPrescriptionDispensedTxt"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentTop="true"
-                    android:layout_marginStart="45dp"
-                    android:layout_marginTop="57dp"
-                    android:text="Dispensed 16:40 28/4/20"
-                    android:textColor="@color/quantum_black_text"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    android:background="@color/transparent"/>
 
-                <TextView
-                    android:id="@+id/cardPrescriptionStatus"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentTop="true"
-                    android:layout_marginStart="45dp"
-                    android:layout_marginTop="99dp"
-                    android:text="Status Being Prepared"
-                    android:textColor="@color/quantum_black_text"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    android:background="@color/transparent"/>
+        <TextView
+            android:id="@+id/cardPrescriptionStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="45dp"
+            android:layout_marginTop="59dp"
+            android:background="@color/transparent"
+            android:text="Status Being Prepared"
+            android:textColor="@color/quantum_black_text"
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/cardPrescriptionPharmacyName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentTop="true"
-                    android:layout_marginStart="45dp"
-                    android:layout_marginTop="138dp"
-                    android:text="Pharmacy Name"
-                    android:textColor="@color/quantum_black_text"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    android:background="@color/transparent"/>
+        <TextView
+            android:id="@+id/cardPrescriptionPharmacyName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="45dp"
+            android:layout_marginTop="110dp"
+            android:background="@color/transparent"
+            android:text="Pharmacy Name"
+            android:textColor="@color/quantum_black_text"
+            android:textSize="20sp"
+            android:textStyle="normal" />
 
-            </RelativeLayout>
+    </RelativeLayout>
 
 
 

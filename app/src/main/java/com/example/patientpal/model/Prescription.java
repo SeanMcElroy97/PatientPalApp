@@ -1,10 +1,12 @@
 package com.example.patientpal.model;
 
-import java.time.LocalDateTime;
-import java.util.Date;
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.util.Comparator;
 import java.util.Map;
 
-public class Prescription {
+public class Prescription implements Parcelable {
 
     int prescriptionID;
     Map<String, Integer> medItems;
@@ -24,6 +26,7 @@ public class Prescription {
     public Prescription(int prescriptionID) {
         this.prescriptionID = prescriptionID;
     }
+
 
     public int getPrescriptionID() {
         return prescriptionID;
@@ -97,4 +100,65 @@ public class Prescription {
     public void setDoctor(String doctor) {
         Doctor = doctor;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+
+    protected Prescription(Parcel in) {
+        prescriptionID = in.readInt();
+        patientMessage = in.readString();
+        pharmacyNameStr = in.readString();
+        status = in.readString();
+        pictureURL = in.readString();
+        if (in.readByte() == 0) {
+            prescriptionCreationTime = null;
+        } else {
+            prescriptionCreationTime = in.readLong();
+        }
+        if (in.readByte() == 0) {
+            prescriptionFulfillmentTime = null;
+        } else {
+            prescriptionFulfillmentTime = in.readLong();
+        }
+        Doctor = in.readString();
+    }
+
+    public static final Creator<Prescription> CREATOR = new Creator<Prescription>() {
+        @Override
+        public Prescription createFromParcel(Parcel in) {
+            return new Prescription(in);
+        }
+
+        @Override
+        public Prescription[] newArray(int size) {
+            return new Prescription[size];
+        }
+    };
+
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeInt(prescriptionID);
+        parcel.writeString(patientMessage);
+        parcel.writeString(pharmacyNameStr);
+        parcel.writeString(status);
+        parcel.writeString(pictureURL);
+        if (prescriptionCreationTime == null) {
+            parcel.writeByte((byte) 0);
+        } else {
+            parcel.writeByte((byte) 1);
+            parcel.writeLong(prescriptionCreationTime);
+        }
+        if (prescriptionFulfillmentTime == null) {
+            parcel.writeByte((byte) 0);
+        } else {
+            parcel.writeByte((byte) 1);
+            parcel.writeLong(prescriptionFulfillmentTime);
+        }
+        parcel.writeString(Doctor);
+    }
 }
+

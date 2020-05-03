@@ -26,11 +26,12 @@ public class PrescriptionListAdapter extends RecyclerView.Adapter<PrescriptionLi
 
     private List<Prescription> mListOfPrescriptions;
     private Context mContext;
+    private OnPrescriptionListener onPrescriptionListener;
 
-
-    public PrescriptionListAdapter(List<Prescription> list, Context context) {
+    public PrescriptionListAdapter(List<Prescription> list, Context context, OnPrescriptionListener onPrescriptionListener) {
         this.mListOfPrescriptions = list;
         this.mContext = context;
+        this.onPrescriptionListener = onPrescriptionListener;
     }
 
 
@@ -39,7 +40,7 @@ public class PrescriptionListAdapter extends RecyclerView.Adapter<PrescriptionLi
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.prescription_row, parent, false);
-        PrescriptionListAdapter.ViewHolder vh = new PrescriptionListAdapter.ViewHolder(v);
+        PrescriptionListAdapter.ViewHolder vh = new PrescriptionListAdapter.ViewHolder(v, onPrescriptionListener);
 
         return vh;
     }
@@ -47,15 +48,24 @@ public class PrescriptionListAdapter extends RecyclerView.Adapter<PrescriptionLi
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
-        DateFormat df = new SimpleDateFormat("HH:mm dd/MM/y:");
+        DateFormat df = new SimpleDateFormat("HH:mm dd/MM");
 
        Date creationDate = new Date(mListOfPrescriptions.get(position).getPrescriptionCreationTime());
-//        //Date fulfillmentDate = new Date(mListOfPrescriptions.get(position).getPrescriptionFulfillmentTime().longValue());
+       Date fulfillmentDate = new Date(mListOfPrescriptions.get(position).getPrescriptionFulfillmentTime());
+       String pharmacyName = mListOfPrescriptions.get(position).getPharmacyNameStr();
 //
-       holder.mCreationDate.setText("Created " +df.format(creationDate));
+        if(mListOfPrescriptions.get(position).getPrescriptionFulfillmentTime()==null || mListOfPrescriptions.get(position).getPrescriptionFulfillmentTime()<1){
+            holder.mLatestPrescriptionDate.setText("Created   " +df.format(creationDate));
+        }else{
+            holder.mLatestPrescriptionDate.setText("Fulfilled   " +df.format(fulfillmentDate));
+        }
+
+
 ////        holder.mFulfillmentDate.setText("Dispensed " +df.format(fulfillmentDate));
-       holder.mStatusValue.setText("Status " +mListOfPrescriptions.get(position).getStatus());
-       holder.mPharmacyName.setText(mListOfPrescriptions.get(position).getPharmacyNameStr());
+       holder.mStatusValue.setText("Status   " +mListOfPrescriptions.get(position).getStatus());
+       holder.mStatusValue.setTextColor(Color.WHITE);
+       holder.mPharmacyName.setText(pharmacyName);
+
 
             //holder.mStatusValue.setTextColor(ContextCompat.getColor(mContext, R.color.blue));
 
@@ -94,24 +104,36 @@ public class PrescriptionListAdapter extends RecyclerView.Adapter<PrescriptionLi
 
 
     //Inner ViewHolder class
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
-        TextView mCreationDate;
-        TextView mFulfillmentDate;
+
+        TextView mLatestPrescriptionDate;
         TextView mStatusValue;
         TextView mPharmacyName;
         CardView layoutCardView;
+        OnPrescriptionListener onPrescriptionListener;
 
-        public ViewHolder(View itemView){
+        public ViewHolder(View itemView, OnPrescriptionListener onPrescriptionListener){
             super(itemView);
-           mStatusValue = itemView.findViewById(R.id.cardPrescriptionStatus);
-            mCreationDate = itemView.findViewById(R.id.cardPrescriptionCreatedTxt);
-            mFulfillmentDate = itemView.findViewById(R.id.cardPrescriptionDispensedTxt);
+            mStatusValue = itemView.findViewById(R.id.cardPrescriptionStatus);
+            mLatestPrescriptionDate = itemView.findViewById(R.id.latestprescriptionDate);
             mPharmacyName = itemView.findViewById(R.id.cardPrescriptionPharmacyName);
-                layoutCardView = itemView.findViewById(R.id.prescriptionCardView);
+            layoutCardView = itemView.findViewById(R.id.prescriptionCardView);
+
+            this.onPrescriptionListener = onPrescriptionListener;
+
+            itemView.setOnClickListener(this);
         }
 
+        @Override
+        public void onClick(View view) {
+            onPrescriptionListener.onPrescriptionClick(getAdapterPosition());
+        }
+    }
 
+    //interface for clicking
+    public interface OnPrescriptionListener{
+        void onPrescriptionClick(int position);
     }
 
 

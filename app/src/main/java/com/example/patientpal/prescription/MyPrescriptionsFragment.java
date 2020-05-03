@@ -1,6 +1,9 @@
 package com.example.patientpal.prescription;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +24,7 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.example.patientpal.R;
 import com.example.patientpal.adapters.PrescriptionListAdapter;
 import com.example.patientpal.model.Prescription;
+import com.example.patientpal.model.PrescriptionComparator;
 import com.example.patientpal.services.VolleySingletonRequestQueue;
 import com.google.gson.JsonObject;
 
@@ -29,8 +33,17 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.function.ToLongFunction;
 
-public class MyPrescriptionsFragment extends Fragment {
+import maes.tech.intentanim.CustomIntent;
+
+import static androidx.constraintlayout.widget.Constraints.TAG;
+
+public class MyPrescriptionsFragment extends Fragment implements PrescriptionListAdapter.OnPrescriptionListener {
 
     private ArrayList<Prescription> mPrescriptions;
 
@@ -107,12 +120,17 @@ public class MyPrescriptionsFragment extends Fragment {
                            }
                            prescription.setDoctor(JSONprescriptionOBJ.getString("doctor"));
                            prescription.setPatientMessage(JSONprescriptionOBJ.getString("patientMessage"));
-//                           prescription.setPharmacyNameStr(JSONprescriptionOBJ.getString(@));
+                           prescription.setPharmacyNameStr(JSONprescriptionOBJ.getString("pharmacyName"));
                             //More prescription fields
                            mPrescriptions.add(prescription);
 
 
                        }
+
+
+                       PrescriptionComparator comparator = new PrescriptionComparator();
+                       Collections.sort(mPrescriptions, comparator);
+
 
                        updateRecyclerView(mPrescriptions);
 
@@ -136,7 +154,7 @@ public class MyPrescriptionsFragment extends Fragment {
 
        public void updateRecyclerView(ArrayList<Prescription> rxList){
            //Set recyclerview adapter to the adapter
-          mPrescriptionListAdapter = new PrescriptionListAdapter(rxList, getContext());
+          mPrescriptionListAdapter = new PrescriptionListAdapter(rxList, getContext(), this);
            //mPrescriptionListAdapter.notifyDataSetChanged();
            mRecyclerView.setAdapter(mPrescriptionListAdapter);
            //Set Adapter
@@ -144,4 +162,15 @@ public class MyPrescriptionsFragment extends Fragment {
        }
 
 
+       //MAy need prescription to implement parcelable
+
+    @Override
+    public void onPrescriptionClick(int position) {
+       mPrescriptions.get(position);
+        Log.d(TAG, "onPrescriptionClick: " + position);
+        Intent intentToPrescription = new Intent(getContext(), SpecificPrescriptionActivity.class);
+        intentToPrescription.putExtra("prescription_obj", mPrescriptions.get(position));
+        startActivity(intentToPrescription);
+
+    }
 }

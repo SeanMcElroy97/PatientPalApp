@@ -44,9 +44,9 @@ public class GetNearbyPlacesData extends AsyncTask<Object, String, String> {
         DataParser parser= new DataParser();
         nearbyPlaceList = parser.parse(s);
 
-        System.out.println("Size : " + nearbyPlaceList.size());
+        //System.out.println("Size : " + nearbyPlaceList.size());
         showNearbyPlaces(nearbyPlaceList);
-        System.out.println("Howdy do in postexecute");
+        //System.out.println("Howdy do in postexecute");
     }
 
 

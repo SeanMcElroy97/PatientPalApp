@@ -78,7 +78,9 @@ public class PharmaciesOnMapActivity extends FragmentActivity implements OnMapRe
 
 
         mRadiusSeekBar = findViewById(R.id.radiusSeekBar);
+        mRadiusSeekBar.setMax(50);
         mRadiusSeekBar.setProgress(kmRadFromIntent);
+
 
         mRadiusInMeters = mRadiusSeekBar.getProgress() * 1000;
 
@@ -103,6 +105,7 @@ public class PharmaciesOnMapActivity extends FragmentActivity implements OnMapRe
                 mIntent.putExtra("kmRadius", seekBar.getProgress());
                 finishFade();
                 startActivity(mIntent);
+
             }
         });
 
@@ -158,6 +161,7 @@ public class PharmaciesOnMapActivity extends FragmentActivity implements OnMapRe
                             latitude = location.getLatitude();
                             longitude = location.getLongitude();
                             LatLng latLng = new LatLng(latitude, longitude);
+                            //System.out.println("Latitude " + latitude  + ",  longitutde " + longitude);
                             mMap.setMyLocationEnabled(true);
                             mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
                             //markerOptions.position(latLng);
@@ -181,11 +185,9 @@ public class PharmaciesOnMapActivity extends FragmentActivity implements OnMapRe
     private String getUrl(double latitude, double longitude, String nearByPharmacy){
         StringBuilder googlePlaceUrl = new StringBuilder("https://maps.googleapis.com/maps/api/place/nearbysearch/json?");
         googlePlaceUrl.append("location="+latitude+","+longitude);
-//        googlePlaceUrl.append("&radius="+5000);
         googlePlaceUrl.append("&radius="+mRadiusInMeters);
         googlePlaceUrl.append("&type="+nearByPharmacy);
         googlePlaceUrl.append("&key="+"AIzaSyC8X9WyCq4kPtjRdrWHf4zdnhJfJcQG0mI");
-        //System.out.println("Toby Maguire");
         return googlePlaceUrl.toString();
     }
 }

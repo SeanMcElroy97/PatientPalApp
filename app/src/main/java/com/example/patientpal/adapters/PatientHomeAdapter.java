@@ -56,7 +56,7 @@ public class PatientHomeAdapter extends RecyclerView.Adapter<PatientHomeAdapter.
                     break;
                 case 1:
                     //Toast.makeText(context, "Reminders", Toast.LENGTH_LONG).show();
-                    patientHomeActivity.gotoReminderActivity(v);
+                    patientHomeActivity.goToMedicinesActivity(v);
                     break;
                 case 2:
                     patientHomeActivity.goToAppointments(v);
@@ -72,7 +72,7 @@ public class PatientHomeAdapter extends RecyclerView.Adapter<PatientHomeAdapter.
                     break;
                 case 5:
 //                    Toast.makeText(patientHomeActivity, "Corona and lime", Toast.LENGTH_LONG).show();
-                    patientHomeActivity.gotoOldReminderActivity(v);
+                    patientHomeActivity.goToAboutActivity(v);
                     break;
                 case 6:
                     //Toast.makeText(context, "Sign Out", Toast.LENGTH_LONG).show();
