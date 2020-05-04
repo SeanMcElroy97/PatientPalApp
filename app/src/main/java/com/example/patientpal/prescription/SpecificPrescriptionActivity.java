@@ -74,7 +74,7 @@ public class SpecificPrescriptionActivity extends AppCompatActivity {
         mPrescriptionId = prescription.getPrescriptionID();
 
         prescriptionStatus.setText(prescription.getStatus());
-        backgroundColorPicker(prescription.getStatus());
+        backgroundColorPicker(prescription.getStatus().replace(" ", ""));
         prescriptionPharmacy.setText(prescription.getPharmacyNameStr());
         prescriptionPharmacy.setEnabled(true);
 

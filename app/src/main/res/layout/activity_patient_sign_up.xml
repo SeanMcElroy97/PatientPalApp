@@ -7,34 +7,9 @@
     tools:context=".PatientSignUpActivity"
     >
 
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/patient_pal_icon" />
-
-
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
-        android:onClick="LoginInstead"
-        android:text="Already Have An Account? Log In"
-        android:textColor="@color/colorAccent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
-
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="570dp"
+        android:layout_height="match_parent"
         android:background="@layout/customborder"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -43,6 +18,8 @@
         app:layout_constraintVertical_bias="1.0"
         android:layout_margin="5dp"
         android:padding="5dp">
+
+
 
         <LinearLayout
             android:id="@+id/linearLayout"
@@ -55,6 +32,24 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             >
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginTop="16dp"
+                app:srcCompat="@drawable/patient_pal_icon" />
+
+            <TextView
+                android:id="@+id/logInClickText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="28dp"
+                android:onClick="LoginInstead"
+                android:text="Already Have An Account? Log In"
+                android:textColor="@color/colorAccent"
+                android:paddingBottom="20dp"
+                />
 
 
             <LinearLayout
@@ -110,21 +105,38 @@
                     android:textSize="20sp" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/text_input_phone_number"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingBottom="16dp"
-                app:errorEnabled="true">
+                android:orientation="horizontal">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
+                <com.hbb20.CountryCodePicker
+                    android:layout_marginTop="20dp"
+                    android:id="@+id/countryCodePrefix"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:hint="Phone Number"
-                    android:inputType="phone"
-                    android:textSize="20sp" />
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    app:ccp_textSize="16sp"
+                    app:ccp_autoDetectCountry="true"
+                    app:ccp_showNameCode="true"/>
 
-            </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/text_input_phone_number"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="16dp"
+                    app:errorEnabled="true">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Phone Number"
+                        android:inputType="phone"
+                        android:textSize="20sp" />
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/text_input_password"
@@ -176,38 +188,72 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/text_input_date_of_birth"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingBottom="16dp"
-                app:errorEnabled="true">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:id="@+id/chooseDateOfBirthButton"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:hint="Date of birth (yyyy/mm/dd)"
-                    android:inputType="phone"
-                    android:textSize="20sp" />
+                    android:padding="4dp"
+                    android:layout_weight="1"
+                    android:text="Choose D.O.B"
+                    android:background="@color/lightGold"
+                    android:layout_marginRight="5dp"/>
 
-            </com.google.android.material.textfield.TextInputLayout>
+                <TextView
+                    android:id="@+id/dateOfBirthTextValue"
+                    android:layout_width="0dp"
+                    android:layout_marginTop="12dp"
+                    android:layout_weight="2"
+                    android:layout_height="wrap_content"
+                    android:hint="Date of birth"
+                    android:textColor="@color/quantum_black_text"
+                    android:textSize="20sp"
+                    android:layout_marginLeft="60dp"/>
+            </LinearLayout>
 
 
-            <Switch
-                android:id="@+id/MaleFemaleSwitch"
-                android:layout_width="match_parent"
+
+
+            <TextView
+                android:layout_marginTop="20dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Gender" />
+                android:textSize="18sp"
+                android:text="Gender"/>
 
+            <RadioGroup
+                android:id="@+id/gender_radio_group"
+                android:layout_marginTop="15dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/radio_male"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Male"
+                    android:layout_marginRight="5dp"/>
+
+                <RadioButton
+                    android:id="@+id/radio_female"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Female"
+                    android:layout_marginLeft="5dp"/>
+            </RadioGroup>
             <Button
-                android:id="@+id/SignUpBtn"
+                android:id="@+id/signUpBtn"
                 android:layout_width="260dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="40dp"
                 android:layout_marginBottom="88dp"
                 android:background="@drawable/rounded_button"
                 android:fontFamily="@font/opens_sans_semi_bold"
-                android:onClick="signUp"
                 android:text="Sign Up"
                 android:textAllCaps="false"
                 android:textColor="@color/white"

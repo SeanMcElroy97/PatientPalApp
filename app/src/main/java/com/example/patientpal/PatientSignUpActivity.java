@@ -2,45 +2,101 @@ package com.example.patientpal;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
+import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.ProgressBar;
+import android.widget.RadioGroup;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputLayout;
+import com.hbb20.CountryCodePicker;
+
+import java.util.Date;
 
 import maes.tech.intentanim.CustomIntent;
 
 public class PatientSignUpActivity extends AppCompatActivity {
 
-    private TextInputLayout textInputEmail;
-    private TextInputLayout textInputPhoneNumber;
     private TextInputLayout textInputFirstName;
-    private TextInputLayout textInputSecondName;
+    private TextInputLayout textInputSurname;
+    private TextInputLayout textInputEmail;
+    private CountryCodePicker mCountryCodePicker;
+    private TextInputLayout textInputPhoneNumber;
     private TextInputLayout textInputPassword;
+    private TextInputLayout textInputPPSNumber;
+    private TextInputLayout textInputAddress;
 
-//    private FirebaseAuth auth;
+    private Button dateOfBirthBtn;
+    private DatePickerDialog.OnDateSetListener mDatePickerListener;
+    private TextView dateOfBirthTxtView;
+    private Date dateOfBirth;
+
+    private RadioGroup mRadioGroupGender;
 
 
-    ProgressBar progressBar;
+    Button mSignUpBtn;
+
+    //ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_patient_sign_up);
 
-        progressBar = findViewById(R.id.PatientSignUpProgressBar);
+       // progressBar = findViewById(R.id.PatientSignUpProgressBar);
 
-        textInputEmail = findViewById(R.id.text_input_email);
-        textInputPhoneNumber = findViewById(R.id.text_input_phone_number);
         textInputFirstName = findViewById(R.id.text_input_firstname);
-        textInputSecondName = findViewById(R.id.text_input_surname);
+        textInputSurname = findViewById(R.id.text_input_surname);
+        textInputEmail = findViewById(R.id.text_input_email);
+        mCountryCodePicker = findViewById(R.id.countryCodePrefix);
+        textInputPhoneNumber = findViewById(R.id.text_input_phone_number);
         textInputPassword = findViewById(R.id.text_input_password);
+        textInputPPSNumber = findViewById(R.id.text_input_ppsNumber);
+        textInputAddress = findViewById(R.id.text_input_address);
+        dateOfBirthBtn = findViewById(R.id.chooseDateOfBirthButton);
+        dateOfBirthTxtView = findViewById(R.id.dateOfBirthTextValue);
 
 
-//        //Firebase
-//        db = FirebaseFirestore.getInstance();
-//        auth = FirebaseAuth.getInstance();
+        dateOfBirthBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DatePickerDialog dialog = new DatePickerDialog(PatientSignUpActivity.this, android.R.style.Theme_Holo_Light_Dialog_MinWidth, mDatePickerListener,2000,1,1);
+                dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+                dialog.show();
+            }
+        });
+
+
+        mDatePickerListener = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+
+                int monthDisplayed = month+1;
+
+                String dateDisplayForUser = day + "/" + monthDisplayed + "/" + year;
+                dateOfBirthTxtView.setText(dateDisplayForUser);
+
+                dateOfBirth = new Date(year, month, day);
+
+            }
+        };
+
+
+        mSignUpBtn = findViewById(R.id.signUpBtn);
+        mSignUpBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                signUp();
+            }
+        });
     }
 
     public void onStart() {
@@ -61,10 +117,6 @@ public class PatientSignUpActivity extends AppCompatActivity {
         startActivity(intentToPatientLogin);
         CustomIntent.customType(this, "left-to-right");
     }
-
-
-
-
 
 
     private boolean validateEmail(String email){
@@ -112,20 +164,6 @@ public class PatientSignUpActivity extends AppCompatActivity {
 
     }
 
-    private boolean validateLastName(String lName){
-
-        if(lName.isEmpty()){
-            textInputSecondName.setError("Can't be empty");
-            return false;
-        }else if(!lName.matches("[a-zA-Z]+")){
-            textInputSecondName.setError("Invalid Name");
-            return false;
-        }else{
-            textInputSecondName.setError(null);
-            return true;
-        }
-
-    }
 
     private boolean validatePhoneNumber(String phoneNumber){
 
@@ -135,8 +173,8 @@ public class PatientSignUpActivity extends AppCompatActivity {
         }else if(!phoneNumber.matches("[0-9]+")){
             textInputPhoneNumber.setError("Numbers only");
             return false;
-        }else if(phoneNumber.length()!=10){
-            textInputPhoneNumber.setError("Must be 10 digits");
+        }else if(phoneNumber.length()<8){
+            textInputPhoneNumber.setError("Not enough digits");
             return false;
         }else{
             textInputPhoneNumber.setError(null);
@@ -147,53 +185,24 @@ public class PatientSignUpActivity extends AppCompatActivity {
 
 
 
-    public void signUp(View v){
+    public void signUp(){
 
-       String firstNameInput = textInputFirstName.getEditText().getText().toString().trim();
-       String secondNameInput = textInputSecondName.getEditText().getText().toString().trim();
-       String emailInput = textInputEmail.getEditText().getText().toString().trim();
-       String phoneNumber = textInputPhoneNumber.getEditText().getText().toString().trim();
-       String password = textInputPassword.getEditText().getText().toString().trim();
+//       String firstNameInput = textInputFirstName.getEditText().getText().toString().trim();
+//       String surname = textInputSurname.getEditText().getText().toString().trim();
+//       String emailInput = textInputEmail.getEditText().getText().toString().trim();
+       String countryCodeIndex = mCountryCodePicker.getSelectedCountryCodeWithPlus();
+//       String phoneNumber = textInputPhoneNumber.getEditText().getText().toString().trim();
+//       String password = textInputPassword.getEditText().getText().toString().trim();
+//
+//        if(!validateEmail(emailInput) || !validatePassword(password) || !validateFirstName(firstNameInput) || !validatePhoneNumber(phoneNumber)) {
+//            return;
+//        }
 
-        if(!validateEmail(emailInput) || !validatePassword(password) || !validateFirstName(firstNameInput) || !validateLastName(secondNameInput) || !validatePhoneNumber(phoneNumber)) {
-            return;
-        }
+        Toast.makeText(this, "herrro " + countryCodeIndex, Toast.LENGTH_SHORT).show();
 
-            //final CollectionReference dbPatientUsers = db.collection("patientUsers");
 
-            //final PatientUser pUser = new PatientUser(firstNameInput, secondNameInput, emailInput, phoneNumber, password);
 
-//            progressBar.setVisibility(View.VISIBLE);
-//            auth.createUserWithEmailAndPassword(pUser.getEmail(), pUser.getPassword())
-//                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-//                        @Override
-//                        public void onComplete(@NonNull Task<AuthResult> task) {
-//
-//                            if (task.isSuccessful()) {
-//
-//
-//                                dbPatientUsers.add(pUser);
-//                                progressBar.setVisibility(View.GONE);
-//                                // Sign in success, update UI with the signed-in user's information
-//                                Toast.makeText(PatientSignUpActivity.this, "User Registered Successful.", Toast.LENGTH_SHORT).show();
-//                                FirebaseUser user = auth.getCurrentUser();
-//
-//
-//                                Intent signUpToHomeIntent = new Intent(PatientSignUpActivity.this, PatientHome.class);
-//                                signUpToHomeIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//                                startActivity(signUpToHomeIntent);
-//
-//
-//                            } else {
-//
-//                                if (task.getException() instanceof FirebaseAuthUserCollisionException) {
-//                                    textInputEmail.setError("Existing account with email address");
-//                                } else {
-//                                    Toast.makeText(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_LONG).show();
-//                                }
-//                            }
-//                        }
-//                    });
+
     }
 
 
