@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -18,6 +19,7 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.example.patientpal.R;
 import com.example.patientpal.adapters.PrescriptionLineItemAdapter;
 import com.example.patientpal.model.LineItem;
+import com.example.patientpal.services.TokenHandler;
 import com.example.patientpal.services.VolleySingletonRequestQueue;
 
 import org.json.JSONArray;
@@ -25,7 +27,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import maes.tech.intentanim.CustomIntent;
 
@@ -133,7 +137,15 @@ public class MedicineActivity extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
 
             }
-        });
+        }){
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String>  params = new HashMap<String, String>();
+                params.put("Authorization", TokenHandler.getToken());
+                return params;
+            }
+        };
 
         mRequestQueue.add(jsonArrayRequest);
     }

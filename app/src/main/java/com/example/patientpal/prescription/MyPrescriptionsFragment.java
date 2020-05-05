@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -25,6 +26,7 @@ import com.example.patientpal.R;
 import com.example.patientpal.adapters.PrescriptionListAdapter;
 import com.example.patientpal.model.Prescription;
 import com.example.patientpal.model.PrescriptionComparator;
+import com.example.patientpal.services.TokenHandler;
 import com.example.patientpal.services.VolleySingletonRequestQueue;
 import com.google.gson.JsonObject;
 
@@ -36,7 +38,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.function.ToLongFunction;
 
 import maes.tech.intentanim.CustomIntent;
@@ -143,9 +147,17 @@ public class MyPrescriptionsFragment extends Fragment implements PrescriptionLis
                @Override
                public void onErrorResponse(VolleyError error) {
                    System.out.println(error.toString());
+                   System.out.println("hmm");
                    mSwipeRefresh.setRefreshing(false);
                }
-           });
+           }){
+               @Override
+               public Map<String, String> getHeaders() throws AuthFailureError {
+                   Map<String, String>  params = new HashMap<String, String>();
+                   params.put("Authorization", TokenHandler.getToken());
+                   return params;
+               }
+           };
 
            mRequestQueue.add(jsonArrayRequest);
 

@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -30,6 +31,7 @@ import com.example.patientpal.model.LocationCovidStats;
 import com.example.patientpal.model.PatientMenuItem;
 import com.example.patientpal.covidActivities.CovidMainActivity;
 import com.example.patientpal.prescription.PrescriptionHomeActivity;
+import com.example.patientpal.services.TokenHandler;
 import com.example.patientpal.services.VolleySingletonRequestQueue;
 
 import org.json.JSONArray;
@@ -37,6 +39,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import maes.tech.intentanim.CustomIntent;
 
@@ -198,8 +202,17 @@ public class PatientHome extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), TokenHandler.getToken(), Toast.LENGTH_SHORT).show();
             }
-        });
+        }){
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String>  params = new HashMap<String, String>();
+                params.put("Authorization", TokenHandler.getToken());
+                return params;
+            }
+        };
 
         mRequestQueue.add(jsonArrayRequest);
 
@@ -215,6 +228,7 @@ public class PatientHome extends AppCompatActivity {
     public void signOut(View v){
 
         //mAuth.signOut();
+        TokenHandler.removeToken();
         Intent logOutIntent = new Intent(this, MainActivity.class);
         startActivity(logOutIntent);
         CustomIntent.customType(this, "fadein-to-fadeout");

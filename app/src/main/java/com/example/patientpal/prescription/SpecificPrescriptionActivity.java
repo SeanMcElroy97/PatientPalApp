@@ -12,6 +12,7 @@ import android.util.Log;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -23,6 +24,7 @@ import com.example.patientpal.adapters.PrescriptionLineItemAdapter;
 import com.example.patientpal.adapters.PrescriptionListAdapter;
 import com.example.patientpal.model.LineItem;
 import com.example.patientpal.model.Prescription;
+import com.example.patientpal.services.TokenHandler;
 import com.example.patientpal.services.VolleySingletonRequestQueue;
 
 import org.json.JSONArray;
@@ -33,7 +35,9 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class SpecificPrescriptionActivity extends AppCompatActivity {
 
@@ -139,7 +143,15 @@ public class SpecificPrescriptionActivity extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
 
             }
-        });
+        }){
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String>  params = new HashMap<String, String>();
+                params.put("Authorization", TokenHandler.getToken());
+                return params;
+            }
+        };
 
         mRequestQueue.add(jsonArrayRequest);
     }
@@ -168,6 +180,9 @@ public class SpecificPrescriptionActivity extends AppCompatActivity {
                 mRelativeLayout.setBackgroundColor(getResources().getColor(R.color.verylightPurpleGrey));
                 break;
             case "beingprepared":
+                mRelativeLayout.setBackgroundColor(getResources().getColor(R.color.verylightBlue));
+                break;
+            case "being prepared":
                 mRelativeLayout.setBackgroundColor(getResources().getColor(R.color.verylightBlue));
                 break;
         }
