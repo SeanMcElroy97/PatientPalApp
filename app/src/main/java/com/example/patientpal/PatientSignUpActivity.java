@@ -25,6 +25,7 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.example.patientpal.model.Patient;
+import com.example.patientpal.services.TokenHandler;
 import com.example.patientpal.services.VolleySingletonRequestQueue;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.Gson;
@@ -59,6 +60,9 @@ public class PatientSignUpActivity extends AppCompatActivity {
     private RadioButton mRadioButtonClicked;
 
     private String mdateofBirthStr;
+
+    private String mEmail;
+    private String mPassword;
 
 
     Button mSignUpBtn;
@@ -235,11 +239,14 @@ public class PatientSignUpActivity extends AppCompatActivity {
     public void signUp(){
 
        String firstNameInput = textInputFirstName.getEditText().getText().toString().trim();
+
        String surname = textInputSurname.getEditText().getText().toString().trim();
        String emailInput = textInputEmail.getEditText().getText().toString().trim();
+       mEmail= emailInput;
        String countryCodePrefix = mCountryCodePicker.getSelectedCountryCodeWithPlus();
        String phoneNumber = textInputPhoneNumber.getEditText().getText().toString().trim();
        String password = textInputPassword.getEditText().getText().toString().trim();
+       mPassword= password;
        String address = textInputAddress.getEditText().getText().toString().trim();
 
        String ppsNumber = textInputPPSNumber.getEditText().getText().toString().trim();
@@ -307,7 +314,21 @@ public class PatientSignUpActivity extends AppCompatActivity {
 //                Gson g = new Gson();
 //                String responseStr  = g.fromJson(response);
 
-                Toast.makeText(getApplicationContext(), "Response: " + response.toString(), Toast.LENGTH_SHORT).show();
+                //response.
+
+
+                    //Toast.makeText(getApplicationContext(), "Response: " + String.valueOf(response), Toast.LENGTH_SHORT).show();
+
+                try {
+                    TokenHandler.setToken(response.getString("jwt"));
+                    //Toast.makeText(getApplicationContext(), "Response: " + response.getString("jwt"), Toast.LENGTH_SHORT).show();
+                    if (TokenHandler.getToken().length()>0) {
+                        Intent loginIntent = new Intent(PatientSignUpActivity.this, PatientHome.class);
+                        startActivity(loginIntent);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
 
                 //Or boolean
                 //JWT will be
@@ -315,7 +336,8 @@ public class PatientSignUpActivity extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getApplicationContext(), "Error: " + error.toString(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "A User already exists, try log in", Toast.LENGTH_SHORT).show();
+                //Login(mEmail, mPassword);
             }
         });
 
@@ -326,8 +348,8 @@ public class PatientSignUpActivity extends AppCompatActivity {
 
 
     //After sign Up
-    public void Login(){
-        
+    public void Login(String email, String password){
+        Toast.makeText(getApplicationContext(), " Login cred " + email + " " + password, Toast.LENGTH_SHORT).show();
     }
 
 }

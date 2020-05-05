@@ -91,7 +91,7 @@ public class PatientLogInActivity extends AppCompatActivity {
 
                 try {
                     TokenHandler.setToken(response.getString("jwt"));
-                    Toast.makeText(getApplicationContext(), "Response: " + response.getString("jwt"), Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getApplicationContext(), "Response: " + response.getString("jwt"), Toast.LENGTH_SHORT).show();
                     Intent loginIntent = new Intent(PatientLogInActivity.this, PatientHome.class);
                     startActivity(loginIntent);
                 } catch (JSONException e) {

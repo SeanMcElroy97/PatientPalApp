@@ -166,7 +166,7 @@ public class SpecificPrescriptionActivity extends AppCompatActivity {
     public void backgroundColorPicker(String status){
         RelativeLayout mRelativeLayout = findViewById(R.id.prescriptionLayout);
 
-        switch (status){
+        switch (status.toLowerCase()){
             case "cancelled":
                 mRelativeLayout.setBackgroundColor(getResources().getColor(R.color.verylightRed));
                 break;

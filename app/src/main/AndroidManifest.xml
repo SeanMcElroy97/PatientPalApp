@@ -21,7 +21,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".prescription.SpecificPrescriptionActivity"></activity>
+        <activity android:name=".services.AboutSignedOutActivity"></activity>
+        <activity android:name=".prescription.SpecificPrescriptionActivity" />
         <activity android:name=".medicine.MedicineActivity" />
         <activity android:name=".AboutActivityLoggedIn" />
         <activity android:name=".medicineReminders.CreateReminderActivity" />

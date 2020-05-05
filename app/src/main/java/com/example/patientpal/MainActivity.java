@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.patientpal.services.AboutSignedOutActivity;
+
 import maes.tech.intentanim.CustomIntent;
 
 public class MainActivity extends AppCompatActivity {
@@ -24,8 +26,9 @@ public class MainActivity extends AppCompatActivity {
         aboutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), PatientHome.class);
+                Intent intent = new Intent(getApplicationContext(), AboutSignedOutActivity.class);
                 startActivity(intent);
+                //CustomIntent.customType(getApplicationContext(), "left-to-right");
             }
         });
         //mAuth= FirebaseAuth.getInstance();

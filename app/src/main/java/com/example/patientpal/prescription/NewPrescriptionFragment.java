@@ -2,7 +2,9 @@ package com.example.patientpal.prescription;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.ContentResolver;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -150,7 +152,23 @@ public class NewPrescriptionFragment extends Fragment{
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                uploadImageToStorage();
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setMessage("If you select OK here it means you consent to the pharmacy you have selected having access to personal data you have entered and your patient medical record, including prescriptions sent using this application to other pharmacies")
+                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        })
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                //do things
+                                uploadImageToStorage();
+                            }
+                        });
+                AlertDialog alert = builder.create();
+                alert.show();
+
                 //Toast.makeText(getContext(), "Send Button Hit", Toast.LENGTH_SHORT).show();
             }
         });
